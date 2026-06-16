@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.5] - 2026-06-16
+
 ### Changed
 
 - Improved Ukrainian translation.
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Timer no longer stays active and shows negative seconds after the Mac sleeps past the activation period.
+- Right-click on the menu bar icon no longer fails to show the context menu on macOS 27. On macOS 27 the system no longer delivers right-mouse events to `NSStatusBarButton` at the AppKit layer, so the context menu is now intercepted via a session-level `CGEventTap`. This requires the user to grant Caffeine accessibility permission on first run (System Settings → Privacy & Security → Accessibility).
 
 ## [1.6.3] - 2026-01-26
 
