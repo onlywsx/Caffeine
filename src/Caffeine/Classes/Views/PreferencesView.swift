@@ -8,8 +8,8 @@ import SwiftUI
 /// Root of the Settings window. Hosts two tabs: General and About.
 ///
 /// Uses a Picker(.segmented) for the tab bar so it follows the
-/// system light/dark theme live. The macOS 15+ Tab initializer
-/// caches its appearance at window creation in the Settings scene.
+/// system light/dark theme live. Tab content is rendered with
+/// conditional `if` to properly isolate each tab's view.
 struct PreferencesView: View {
     @Bindable var viewModel: CaffeineViewModel
     let updater: UpdaterController
@@ -41,14 +41,11 @@ struct PreferencesView: View {
 
             Divider()
 
-            // Tab content
-            Group {
-                switch self.selection {
-                case .general:
-                    GeneralSettingsView(viewModel: self.viewModel)
-                case .about:
-                    AboutView(updater: self.updater)
-                }
+            // Tab content - use if/else to properly isolate views
+            if self.selection == .general {
+                GeneralSettingsView(viewModel: self.viewModel)
+            } else {
+                AboutView(updater: self.updater)
             }
         }
         .frame(minWidth: 480, minHeight: 300)
