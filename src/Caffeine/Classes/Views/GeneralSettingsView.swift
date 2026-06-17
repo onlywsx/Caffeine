@@ -55,6 +55,8 @@ struct GeneralSettingsView: View {
         }
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
     }
 }
 
