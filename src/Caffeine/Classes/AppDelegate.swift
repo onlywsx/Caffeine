@@ -6,37 +6,10 @@
 //
 
 import Cocoa
-import Sparkle
-import SwiftUI
 
-class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegate {
-    /// Make this lazy so `self` can be used safely
-    private lazy var updaterController = SPUStandardUpdaterController(
-        startingUpdater: true,
-        updaterDelegate: nil,
-        userDriverDelegate: self
-    )
-    private var statusItem: NSStatusItem?
-    private var menuBarController: MenuBarController?
-
+class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_: Notification) {
-        // Create the menu bar controller
-        self.menuBarController = MenuBarController(updaterController: self.updaterController)
-
         // Hide the dock icon - this is a menu bar only app
         NSApp.setActivationPolicy(.accessory)
-    }
-
-    func applicationWillTerminate(_: Notification) {
-        // Clean up
-        self.menuBarController?.cleanup()
-    }
-
-    // MARK: SPUStandardUserDriverDelegate
-
-    // MARK: - --
-
-    func supportsGentleScheduledUpdateReminders() -> Bool {
-        true
     }
 }
