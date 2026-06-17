@@ -7,31 +7,60 @@ import SwiftUI
 
 /// Root of the Settings window. Hosts two tabs: General and About.
 ///
-/// `CaffeineApp.swift` passes this view into the `Settings { }`
-/// scene. Uses the macOS 15+ `Tab` initializer (rather than the
-/// older `.tabItem` modifier) so the segmented control follows
-/// the system light/dark theme live. Deployment target is 15.6.
+/// Uses a Picker(.segmented) for the tab bar so it follows the
+/// system light/dark theme live. The macOS 15+ Tab initializer
+/// caches its appearance at window creation in the Settings scene.
 struct PreferencesView: View {
     @Bindable var viewModel: CaffeineViewModel
     let updater: UpdaterController
 
-    var body: some View {
-        TabView {
-            Tab(
-                String(localized: "General", comment: "Settings tab: General"),
-                systemImage: "gearshape"
-            ) {
-                GeneralSettingsView(viewModel: self.viewModel)
-            }
+    enum Tab: String, CaseIterable, Identifiable {
+        case general
+        case about
 
-            Tab(
-                String(localized: "About", comment: "Settings tab: About"),
-                systemImage: "info.circle"
-            ) {
-                AboutView(updater: self.updater)
+        var id: String {
+            self.rawValue
+        }
+    }
+
+    @State private var selection: Tab = .general
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Tab bar
+            Picker("", selection: self.$selection) {
+                ForEach(Tab.allCases) { tab in
+                    Text(self.title(for: tab)).tag(tab)
+                }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .padding(.horizontal, 20)
+            .padding(.top, 16)
+            .padding(.bottom, 12)
+
+            Divider()
+
+            // Tab content
+            Group {
+                switch self.selection {
+                case .general:
+                    GeneralSettingsView(viewModel: self.viewModel)
+                case .about:
+                    AboutView(updater: self.updater)
+                }
             }
         }
         .frame(minWidth: 480, minHeight: 300)
+    }
+
+    private func title(for tab: Tab) -> String {
+        switch tab {
+        case .general:
+            String(localized: "General", comment: "Settings tab title")
+        case .about:
+            String(localized: "About", comment: "Settings tab title")
+        }
     }
 }
 
