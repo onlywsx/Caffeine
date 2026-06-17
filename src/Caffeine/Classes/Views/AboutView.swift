@@ -24,14 +24,30 @@ struct AboutView: View {
     private let repoURL = URL(string: "https://github.com/dominc/Caffeine")!
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // Version
-            HStack(spacing: 4) {
-                Text("Version")
-                    .font(.system(size: 13))
-                Text(self.version)
-                    .font(.system(size: 13))
+        VStack(alignment: .leading, spacing: 12) {
+            // App icon + name + version + description
+            HStack(alignment: .center, spacing: 16) {
+                Image(nsImage: NSImage(named: NSImage.applicationIconName) ?? NSImage())
+                    .resizable()
+                    .frame(width: 100, height: 100)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Caffeine")
+                        .font(.system(size: 20, weight: .semibold))
+
+                    Text(String(
+                        format: String(localized: "Version %@", comment: "About tab version label"),
+                        self.version
+                    ))
+                    .font(.system(size: 11))
                     .foregroundStyle(.secondary)
+
+                    Text(
+                        "Caffeine keeps your Mac awake. Click the menu bar icon to disable automatic sleep; click it again to re-enable it."
+                    )
+                    .font(.system(size: 13))
+                    .fixedSize(horizontal: false, vertical: true)
+                }
             }
 
             Spacer()
