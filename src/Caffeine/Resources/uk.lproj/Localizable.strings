@@ -32,7 +32,6 @@
 "Default duration:" = "Тривалість за замовчуванням:";
 "Activate when starting Caffeine" = "Увімкнути при запуску Caffeine";
 "Deactivate when device goes to sleep manually" = "Вимикати, коли пристрій переходить у сон вручну";
-"Show this message when starting Caffeine" = "Показувати це повідомлення при запуску Caffeine";
 "Keep apps active" = "Тримати застосунки активними";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Не дає застосункам переходити в неактивний режим і запускатися заставці.";
 "Close" = "Закрити";
