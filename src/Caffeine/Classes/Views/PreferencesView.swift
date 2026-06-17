@@ -16,45 +16,22 @@ struct PreferencesView: View {
     let updater: UpdaterController
 
     var body: some View {
-        VStack(spacing: 0) {
-            TabView {
-                Tab(
-                    String(localized: "General", comment: "Settings tab: General"),
-                    systemImage: "gearshape"
-                ) {
-                    GeneralSettingsView(viewModel: self.viewModel)
-                }
-
-                Tab(
-                    String(localized: "About", comment: "Settings tab: About"),
-                    systemImage: "info.circle"
-                ) {
-                    AboutView(updater: self.updater)
-                }
+        TabView {
+            Tab(
+                String(localized: "General", comment: "Settings tab: General"),
+                systemImage: "gearshape"
+            ) {
+                GeneralSettingsView(viewModel: self.viewModel)
             }
 
-            Divider()
-
-            // Footer buttons
-            HStack {
-                Button(String(localized: "Quit")) {
-                    NSApp.terminate(nil)
-                }
-                .controlSize(.regular)
-
-                Spacer()
-
-                Button(String(localized: "Close")) {
-                    NSApp.keyWindow?.close()
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.regular)
-                .keyboardShortcut(.defaultAction)
+            Tab(
+                String(localized: "About", comment: "Settings tab: About"),
+                systemImage: "info.circle"
+            ) {
+                AboutView(updater: self.updater)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 12)
         }
-        .frame(minWidth: 340, minHeight: 320)
+        .frame(minWidth: 340, minHeight: 300)
     }
 }
 
