@@ -19,9 +19,14 @@ struct GeneralSettingsView: View {
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
 
     var body: some View {
-        Form {
-            Section {
-                Picker("Default duration", selection: self.$defaultDuration) {
+        VStack(alignment: .leading, spacing: 16) {
+            // Default duration
+            HStack(spacing: 8) {
+                Text("Default duration:")
+                    .font(.system(size: 13))
+                    .frame(width: 120, alignment: .trailing)
+
+                Picker("", selection: self.$defaultDuration) {
                     Text("5 minutes").tag(5)
                     Text("10 minutes").tag(10)
                     Text("15 minutes").tag(15)
@@ -32,14 +37,24 @@ struct GeneralSettingsView: View {
                     Text("Indefinitely").tag(0)
                 }
                 .pickerStyle(.menu)
+                .labelsHidden()
+                .frame(width: 180, alignment: .leading)
+
+                Spacer()
             }
 
-            Section {
+            Divider()
+
+            // Toggles
+            VStack(alignment: .leading, spacing: 10) {
                 Toggle("Activate when starting Caffeine", isOn: self.$activateAtLaunch)
-                Toggle("Deactivate when device goes to sleep manually", isOn: self.$deactivateOnManualSleep)
-            }
+                    .font(.system(size: 13))
 
-            Section {
+                Toggle("Deactivate when device goes to sleep manually", isOn: self.$deactivateOnManualSleep)
+                    .font(.system(size: 13))
+
+                Divider()
+
                 Toggle("Keep apps active", isOn: Binding(
                     get: { self.keepAppsActive },
                     set: { newValue in
@@ -47,16 +62,16 @@ struct GeneralSettingsView: View {
                         self.viewModel.updateActivitySimulation(enabled: newValue)
                     }
                 ))
+                .font(.system(size: 13))
 
                 Text("Prevents apps from becoming inactive and the screen saver from starting.")
-                    .font(.caption)
+                    .font(.system(size: 11))
                     .foregroundStyle(.secondary)
+                    .padding(.leading, 20)
             }
         }
-        .formStyle(.grouped)
-        .scrollContentBackground(.hidden)
-        .padding(.vertical, 12)
-        .padding(.horizontal, 16)
+        .padding(20)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 }
 
