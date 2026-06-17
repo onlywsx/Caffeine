@@ -42,11 +42,8 @@ struct AboutView: View {
                     .font(.system(size: 11))
                     .foregroundStyle(.secondary)
 
-                    Text(
-                        "Caffeine keeps your Mac awake. Click the menu bar icon to disable automatic sleep; click it again to re-enable it."
-                    )
-                    .font(.system(size: 13))
-                    .fixedSize(horizontal: false, vertical: true)
+                    Text("Caffeine keeps your Mac awake.")
+                        .font(.system(size: 13))
                 }
             }
 
