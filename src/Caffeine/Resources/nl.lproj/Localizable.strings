@@ -42,3 +42,11 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine voorkomt sluimerstand";
+
+/* Settings tabs */
+"General" = "General";
+"About" = "About";
+
+/* About tab */
+"Version %@" = "Version %@";
+"View on GitHub" = "View on GitHub";

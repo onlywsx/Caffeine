@@ -43,3 +43,11 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine empêche la mise en veille";
 
+
+/* Settings tabs */
+"General" = "General";
+"About" = "About";
+
+/* About tab */
+"Version %@" = "Version %@";
+"View on GitHub" = "View on GitHub";

@@ -43,3 +43,11 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine 会阻止睡眠";
 
+
+/* Settings tabs */
+"General" = "General";
+"About" = "About";
+
+/* About tab */
+"Version %@" = "Version %@";
+"View on GitHub" = "View on GitHub";
