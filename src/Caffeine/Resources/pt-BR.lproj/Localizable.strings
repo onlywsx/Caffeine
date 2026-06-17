@@ -11,18 +11,22 @@
 
 /* Status messages */
 "Caffeine is active" = "Caffeine está ativo";
-"%d minutes" = "%d minutos";
-"%d seconds" = "%d segundos";
+"%d minutes remaining" = "%d minutos restantes";
+"%d seconds remaining" = "%d segundos restantes";
+"%@ remaining" = "%@ restantes";
 
 /* Menu items */
 "Check for Updates..." = "Procurar atualizações...";
 "Preferences..." = "Preferências...";
 "About Caffeine" = "Sobre o Caffeine";
+"Deactivate Caffeine" = "Desativar o Caffeine";
 "Quit" = "Encerrar";
+
+"Activate Caffeine" = "Ativar o Caffeine";
 
 /* Preferences instructions */
 "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "O Caffeine já está em execução. Você pode encontrar o ícone no lado direito da barra de menus. Clique para desativar o repouso automático e clique novamente para ativá-lo.";
-"Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "Clique com o botão direito (ou pressione ⌃ e clique) no ícone da barra de menus para abrir o menu do Caffeine.";
+"Click the menu bar icon to open the Caffeine menu." = "Clique no ícone da barra de menus para abrir o menu do Caffeine.";
 
 /* Preferences labels */
 "Default duration:" = "Duração padrão:";
@@ -35,7 +39,6 @@
 
 /* Menu additions */
 "Activate for" = "Ativar por";
-"Welcome to Caffeine" = "Bem-vindo ao Caffeine";
 
 /* About credits */
 "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nCódigo-fonte:\nhttps://github.caffeine-app.net";
@@ -43,10 +46,5 @@
 /* System messages */
 "Caffeine prevents sleep" = "O Caffeine impede o repouso";
 
-/* Settings tabs */
-"General" = "General";
-"About" = "About";
+/* Menu items */
 
-/* About tab */
-"Version %@" = "Version %@";
-"View on GitHub" = "View on GitHub";

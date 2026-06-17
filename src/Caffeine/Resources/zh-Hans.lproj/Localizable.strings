@@ -11,18 +11,22 @@
 
 /* Status messages */
 "Caffeine is active" = "Caffeine已激活";
-"%d minutes" = "%d分钟";
-"%d seconds" = "%d秒";
+"%d minutes remaining" = "剩余 %d 分钟";
+"%d seconds remaining" = "剩余 %d 秒";
+"%@ remaining" = "剩余 %@";
 
 /* Menu items */
 "Check for Updates..." = "检查更新...";
 "Preferences..." = "偏好设置...";
 "About Caffeine" = "关于Caffeine";
+"Deactivate Caffeine" = "关闭 Caffeine";
 "Quit" = "退出";
+
+"Activate Caffeine" = "开启 Caffeine";
 
 /* Preferences instructions */
 "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine 已经在运行。您可以在菜单栏右侧找到它的图标。单击可停用自动睡眠，再次单击即可重新启用自动睡眠。";
-"Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "右键单击（或按住 ⌃ 键并单击）菜单栏图标即可显示 Caffeine 菜单。";
+"Click the menu bar icon to open the Caffeine menu." = "点击菜单栏图标打开 Caffeine 菜单。";
 
 /* Preferences labels */
 "Default duration:" = "默认时长：";
@@ -35,7 +39,6 @@
 
 /* Menu additions */
 "Activate for" = "激活时长";
-"Welcome to Caffeine" = "欢迎使用 Caffeine";
 
 /* About credits */
 "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\n源代码：\nhttps://github.caffeine-app.net";
@@ -44,10 +47,5 @@
 "Caffeine prevents sleep" = "Caffeine 会阻止睡眠";
 
 
-/* Settings tabs */
-"General" = "General";
-"About" = "About";
+/* Menu items */
 
-/* About tab */
-"Version %@" = "Version %@";
-"View on GitHub" = "View on GitHub";
