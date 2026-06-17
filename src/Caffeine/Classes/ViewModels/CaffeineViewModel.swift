@@ -17,11 +17,6 @@ final class CaffeineViewModel {
 
     var isActive = false
     var timeRemaining: TimeInterval?
-    /// Set to `true` by `init` on the very first launch (when the
-    /// user has not yet dismissed the welcome screen). The SwiftUI
-    /// `Settings` scene observes this flag and calls
-    /// `openSettings` to surface the welcome window.
-    var showPreferences = false
 
     // MARK: - Ignored (private) Properties
 
@@ -46,11 +41,6 @@ final class CaffeineViewModel {
         // Check if we should activate at launch
         if UserDefaults.standard.bool(forKey: PreferenceKeys.activateAtLaunch) {
             self.activate()
-        }
-
-        // Show preferences on first launch
-        if !UserDefaults.standard.bool(forKey: PreferenceKeys.suppressLaunchMessage) {
-            self.showPreferences = true
         }
     }
 
@@ -219,7 +209,6 @@ final class CaffeineViewModel {
 enum PreferenceKeys {
     static let activateAtLaunch = "CAActivateAtLaunch"
     static let defaultDuration = "CADefaultDuration"
-    static let suppressLaunchMessage = "CASuppressLaunchMessage"
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
     static let keepAppsActive = "CAKeepAppsActive"
 }

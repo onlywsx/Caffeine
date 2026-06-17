@@ -5,17 +5,16 @@
 
 import SwiftUI
 
-/// General preferences tab. Hosts the existing controls: default
-/// activation duration, launch behaviour, sleep behaviour, and the
-/// activity-simulation toggle. The view reads its state directly
-/// from `UserDefaults` via `@AppStorage` and routes the
-/// "keep apps active" toggle through the view model so the
-/// `ActivitySimulator` can be started/stopped.
+/// General preferences tab. Hosts the default activation duration,
+/// launch behaviour, sleep behaviour, and the activity-simulation
+/// toggle. Reads state directly from `UserDefaults` via
+/// `@AppStorage` and routes the "keep apps active" toggle through
+/// the view model so the `ActivitySimulator` can be
+/// started/stopped.
 struct GeneralSettingsView: View {
     @Bindable var viewModel: CaffeineViewModel
     @AppStorage(PreferenceKeys.defaultDuration) private var defaultDuration = 0
     @AppStorage(PreferenceKeys.activateAtLaunch) private var activateAtLaunch = false
-    @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
 
@@ -41,22 +40,15 @@ struct GeneralSettingsView: View {
 
                 Spacer()
             }
-            .padding(.top, 20)
-            .padding(.bottom, 16)
+            .padding(.bottom, 12)
 
-            // Checkboxes
+            // Toggles
             VStack(alignment: .leading, spacing: 8) {
                 Toggle("Activate when starting Caffeine", isOn: self.$activateAtLaunch)
                     .font(.system(size: 13))
 
                 Toggle("Deactivate when device goes to sleep manually", isOn: self.$deactivateOnManualSleep)
                     .font(.system(size: 13))
-
-                Toggle("Show this message when starting Caffeine", isOn: Binding(
-                    get: { !self.suppressLaunchMessage },
-                    set: { self.suppressLaunchMessage = !$0 }
-                ))
-                .font(.system(size: 13))
 
                 Divider()
                     .padding(.vertical, 4)
@@ -76,15 +68,14 @@ struct GeneralSettingsView: View {
                     .padding(.leading, 20)
             }
 
-            Spacer()
-                .frame(height: 30)
+            Spacer(minLength: 16)
 
             // Footer buttons
             HStack {
                 Button(String(localized: "Quit")) {
                     NSApp.terminate(nil)
                 }
-                .controlSize(.large)
+                .controlSize(.regular)
 
                 Spacer()
 
@@ -92,12 +83,12 @@ struct GeneralSettingsView: View {
                     NSApp.keyWindow?.close()
                 }
                 .buttonStyle(.borderedProminent)
-                .controlSize(.large)
+                .controlSize(.regular)
                 .keyboardShortcut(.defaultAction)
             }
-            .padding(.bottom, 20)
         }
         .padding(.horizontal, 20)
+        .padding(.vertical, 16)
         .frame(width: 640)
         .fixedSize(horizontal: false, vertical: true)
     }

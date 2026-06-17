@@ -14,6 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   link, Check for Updates).
 - "Check for Updates" moved from the menu bar item to the About tab.
 
+### Removed
+
+- First-launch pop-up of the Settings window (and its associated
+  "Show this message when starting Caffeine" preference). Users
+  open Settings themselves from the menu bar via
+  `Preferences…`.
+
 ### Fixed
 
 - Settings tab bar now follows the system light/dark theme.
