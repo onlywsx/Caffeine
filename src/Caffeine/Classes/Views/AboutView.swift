@@ -51,7 +51,7 @@ struct AboutView: View {
                 }
             }
         }
-        .frame(maxWidth: 520)
+        .padding()
     }
 }
 

@@ -87,7 +87,6 @@ struct GeneralSettingsView: View {
             }
         }
         .padding()
-        .frame(maxWidth: 520)
     }
 }
 
