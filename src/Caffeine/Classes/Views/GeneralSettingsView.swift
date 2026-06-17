@@ -40,7 +40,6 @@ struct GeneralSettingsView: View {
 
                 Spacer()
             }
-            .padding(.bottom, 12)
 
             // Toggles
             VStack(alignment: .leading, spacing: 8) {
@@ -68,7 +67,7 @@ struct GeneralSettingsView: View {
                     .padding(.leading, 20)
             }
 
-            Spacer(minLength: 16)
+            Spacer()
 
             // Footer buttons
             HStack {
@@ -87,10 +86,8 @@ struct GeneralSettingsView: View {
                 .keyboardShortcut(.defaultAction)
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 16)
-        .frame(width: 640)
-        .fixedSize(horizontal: false, vertical: true)
+        .padding()
+        .frame(maxWidth: 520)
     }
 }
 

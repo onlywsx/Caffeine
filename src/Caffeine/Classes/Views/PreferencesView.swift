@@ -31,7 +31,7 @@ struct PreferencesView: View {
                 AboutView(updater: self.updater)
             }
         }
-        .frame(minWidth: 680, minHeight: 360)
+        .fixedSize()
     }
 }
 
