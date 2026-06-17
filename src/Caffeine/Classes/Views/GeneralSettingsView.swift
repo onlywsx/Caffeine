@@ -21,30 +21,6 @@ struct GeneralSettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Icon and description
-            HStack(alignment: .center, spacing: 16) {
-                ZStack {
-                    Image(nsImage: NSImage(named: NSImage.applicationIconName) ?? NSImage())
-                        .resizable()
-                        .frame(width: 140, height: 140)
-                }
-
-                VStack(alignment: .leading, spacing: 16) {
-                    Text(
-                        "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep."
-                    )
-                    .font(.system(size: 13))
-                    .fixedSize(horizontal: false, vertical: true)
-
-                    Text("Click the menu bar icon to open the Caffeine menu.")
-                        .font(.system(size: 13, weight: .bold))
-                        .foregroundColor(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-            .padding(.top, 20)
-            .padding(.bottom, 30)
-
             // Default duration
             HStack(spacing: 8) {
                 Text("Default duration:")
@@ -65,6 +41,7 @@ struct GeneralSettingsView: View {
 
                 Spacer()
             }
+            .padding(.top, 20)
             .padding(.bottom, 16)
 
             // Checkboxes
