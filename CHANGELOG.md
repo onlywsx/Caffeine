@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   link, Check for Updates).
 - "Check for Updates" moved from the menu bar item to the About tab.
 
+### Fixed
+
+- Settings tab bar now follows the system light/dark theme. The
+  built-in `TabView` segmented control on macOS 14.6 cached its
+  appearance at window creation; the tab bar is now a `Picker`
+  with `.segmented` style, which SwiftUI re-evaluates on
+  `colorScheme` change.
+
 ## [1.6.5] - 2026-06-16
 
 ### Changed
