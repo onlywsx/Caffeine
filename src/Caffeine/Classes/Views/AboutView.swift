@@ -58,7 +58,7 @@ struct AboutView: View {
                 .fixedSize()
             }
         }
-        .frame(maxWidth: 400, maxHeight: .infinity)
+        .frame(maxWidth: 340, maxHeight: .infinity)
     }
 }
 
