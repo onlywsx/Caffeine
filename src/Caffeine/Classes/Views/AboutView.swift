@@ -21,8 +21,8 @@ struct AboutView: View {
     private let repoURL = URL(string: "https://github.com/dominc/Caffeine")!
 
     var body: some View {
-        VStack(spacing: 20) {
-            // App icon + name + version
+        VStack(spacing: 16) {
+            // App icon + name + version + description
             VStack(spacing: 8) {
                 Image(nsImage: NSImage(named: NSImage.applicationIconName) ?? NSImage())
                     .resizable()
@@ -37,11 +37,10 @@ struct AboutView: View {
                 ))
                 .font(.system(size: 11))
                 .foregroundStyle(.secondary)
-            }
 
-            // Description
-            Text("Caffeine keeps your Mac awake.")
-                .font(.system(size: 13))
+                Text("Caffeine keeps your Mac awake.")
+                    .font(.system(size: 13))
+            }
 
             // Action buttons
             HStack(spacing: 12) {
@@ -56,6 +55,7 @@ struct AboutView: View {
                 } label: {
                     Text(String(localized: "Check for Updates...", comment: "About tab: trigger Sparkle update check"))
                 }
+                .fixedSize()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
