@@ -7,8 +7,7 @@ import Sparkle
 import SwiftUI
 
 /// About tab. Read-only metadata about the app plus a Check for
-/// Updates button. Layout matches the visual rhythm of the General
-/// tab so the two sit well side-by-side in the Settings window.
+/// Updates button.
 struct AboutView: View {
     let updater: UpdaterController
 
@@ -25,42 +24,17 @@ struct AboutView: View {
     private let repoURL = URL(string: "https://github.com/dominc/Caffeine")!
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // App icon + name + version + description
-            HStack(alignment: .center, spacing: 16) {
-                Image(nsImage: NSImage(named: NSImage.applicationIconName) ?? NSImage())
-                    .resizable()
-                    .frame(width: 140, height: 140)
-
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Caffeine")
-                        .font(.system(size: 20, weight: .semibold))
-
-                    // Localized "Version %@"
-                    Text(String(
-                        format: String(localized: "Version %@", comment: "About tab version label"),
-                        self.version
-                    ))
-                    .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
-
-                    Text(
-                        "Caffeine keeps your Mac awake. Click the menu bar icon to disable automatic sleep; click it again to re-enable it."
-                    )
+        VStack(alignment: .leading, spacing: 8) {
+            // Version
+            HStack(spacing: 4) {
+                Text("Version")
                     .font(.system(size: 13))
-                    .fixedSize(horizontal: false, vertical: true)
-                }
+                Text(self.version)
+                    .font(.system(size: 13))
+                    .foregroundStyle(.secondary)
             }
-            .padding(.top, 20)
-            .padding(.bottom, 24)
 
-            // Credits (preserved from the old NSApp.orderFrontStandardAboutPanel credits)
-            Text(
-                "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer"
-            )
-            .font(.system(size: 11))
-            .foregroundStyle(.secondary)
-            .padding(.bottom, 24)
+            Spacer()
 
             // Action buttons
             HStack(spacing: 12) {
@@ -76,13 +50,8 @@ struct AboutView: View {
                     Text(String(localized: "Check for Updates...", comment: "About tab: trigger Sparkle update check"))
                 }
             }
-
-            Spacer()
-                .frame(height: 30)
         }
-        .padding(.horizontal, 20)
-        .frame(width: 640)
-        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 520)
     }
 }
 
