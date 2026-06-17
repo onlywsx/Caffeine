@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Combine
 import CoreGraphics
 import DZFoundation
 import Sparkle
@@ -17,7 +16,6 @@ class MenuBarController: NSObject {
     private var statusItem: NSStatusItem?
     private var viewModel: CaffeineViewModel
     private var preferencesWindow: NSWindow?
-    private var cancellables = Set<AnyCancellable>()
     private let updaterController: SPUStandardUpdaterController
     /// Top-of-menu item that displays the time-remaining string while
     /// Caffeine is active. Updated in place as `viewModel.timeRemaining`
@@ -239,36 +237,32 @@ class MenuBarController: NSObject {
     }
 
     private func setupObservers() {
-        self.viewModel.$isActive
-            .sink { [weak self] _ in
-                guard let self else { return }
-                DispatchQueue.main.async {
-                    self.updateIcon()
-                    self.updateTimeRemainingMenuItem()
-                }
-            }
-            .store(in: &self.cancellables)
+        // @Observable migration: replace Combine `sink` on `$isActive`
+        // with `withObservationTracking`. Re-establishes tracking
+        // recursively on each change. Tracks all three observed
+        // properties in one block so we don't need three separate
+        // observation cycles.
+        self.observeViewModel()
+    }
 
-        // `timeRemaining` is published roughly once a second while
-        // Caffeine is active. We keep the menu's top item in sync with
-        // it so the user sees a live countdown when they right-click
-        // the status item.
-        self.viewModel.$timeRemaining
-            .sink { [weak self] _ in
+    private func observeViewModel() {
+        withObservationTracking { [weak self] in
+            guard let self else { return }
+            // Read the properties to track
+            _ = self.viewModel.isActive
+            _ = self.viewModel.timeRemaining
+            _ = self.viewModel.showPreferences
+        } onChange: { [weak self] in
+            Task { @MainActor in
                 guard let self else { return }
-                DispatchQueue.main.async {
-                    self.updateTimeRemainingMenuItem()
+                self.updateIcon()
+                self.updateTimeRemainingMenuItem()
+                if self.viewModel.showPreferences {
+                    self.showPreferencesWindow()
                 }
+                self.observeViewModel()
             }
-            .store(in: &self.cancellables)
-
-        self.viewModel.$showPreferences
-            .sink { [weak self] show in
-                if show {
-                    self?.showPreferencesWindow()
-                }
-            }
-            .store(in: &self.cancellables)
+        }
     }
 
     private func updateIcon() {
@@ -458,7 +452,14 @@ class MenuBarController: NSObject {
         NSApp.activate(ignoringOtherApps: true)
 
         if self.preferencesWindow == nil {
-            let contentView = PreferencesView(viewModel: viewModel)
+            // The new `PreferencesView` takes an `UpdaterController`
+            // (the SwiftUI wrapper). `MenuBarController` owns a
+            // `SPUStandardUpdaterController`, but the wrapper creates
+            // its own, so we instantiate a fresh wrapper here for the
+            // (dead-code) preferences window path. This branch is
+            // never reached at runtime — the new `CaffeineApp`
+            // architecture uses `Settings { … }` from SwiftUI.
+            let contentView = PreferencesView(viewModel: viewModel, updater: UpdaterController())
             let hostingController = NSHostingController(rootView: contentView)
 
             let window = NSWindow(contentViewController: hostingController)

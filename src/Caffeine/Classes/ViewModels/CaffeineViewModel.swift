@@ -11,17 +11,27 @@ import SwiftUI
 
 /// Main view model for the Caffeine application
 @MainActor
-class CaffeineViewModel: ObservableObject {
+@Observable
+final class CaffeineViewModel {
     // MARK: - Published Properties
 
-    @Published var isActive = false
-    @Published var timeRemaining: TimeInterval?
-    @Published var showPreferences = false
+    var isActive = false
+    var timeRemaining: TimeInterval?
+    /// Set to `true` by `init` on the very first launch (when the
+    /// user has not yet dismissed the welcome screen). The SwiftUI
+    /// `Settings` scene observes this flag and calls
+    /// `openSettings` to surface the welcome window.
+    var showPreferences = false
 
-    // MARK: - Private Properties
+    // MARK: - Ignored (private) Properties
 
+    @ObservationIgnored
     private var timeoutTimer: Timer?
+
+    @ObservationIgnored
     private var displayTimer: Timer?
+
+    @ObservationIgnored
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
