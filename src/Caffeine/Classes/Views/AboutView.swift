@@ -21,15 +21,15 @@ struct AboutView: View {
     private let repoURL = URL(string: "https://github.com/dominc/Caffeine")!
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 20) {
             // App icon + name + version + description
             VStack(spacing: 8) {
                 Image(nsImage: NSImage(named: NSImage.applicationIconName) ?? NSImage())
                     .resizable()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 80, height: 80)
 
                 Text("Caffeine")
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.system(size: 18, weight: .semibold))
 
                 Text(String(
                     format: String(localized: "Version %@", comment: "About tab version label"),
@@ -39,7 +39,8 @@ struct AboutView: View {
                 .foregroundStyle(.secondary)
 
                 Text("Caffeine keeps your Mac awake.")
-                    .font(.system(size: 13))
+                    .font(.system(size: 12))
+                    .foregroundStyle(.secondary)
             }
 
             // Action buttons
@@ -58,7 +59,7 @@ struct AboutView: View {
                 .fixedSize()
             }
         }
-        .frame(maxWidth: 340, maxHeight: .infinity)
+        .padding(24)
     }
 }
 
