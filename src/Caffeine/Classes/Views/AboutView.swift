@@ -26,7 +26,8 @@ struct AboutView: View {
             VStack(spacing: 8) {
                 Image(nsImage: NSImage(named: NSImage.applicationIconName) ?? NSImage())
                     .resizable()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 64, height: 64)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
 
                 Text("Caffeine")
                     .font(.system(size: 18, weight: .semibold))
