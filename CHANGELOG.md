@@ -16,11 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Settings tab bar now follows the system light/dark theme. The
-  built-in `TabView` segmented control on macOS 14.6 cached its
-  appearance at window creation; the tab bar is now a `Picker`
-  with `.segmented` style, which SwiftUI re-evaluates on
-  `colorScheme` change.
+- Settings tab bar now follows the system light/dark theme.
+  Switched from the `.tabItem`-based `TabView` (which on macOS
+  14.6 cached its appearance at window creation and only
+  refreshed on relaunch) to the macOS 15+ `Tab` initializer,
+  which re-evaluates colors when the system theme changes.
+- Minimum macOS version raised to 15.6 to enable the modern
+  `Tab` API.
 
 ## [1.6.5] - 2026-06-16
 
