@@ -54,7 +54,7 @@ struct PreferencesView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
         }
-        .frame(minWidth: 520, minHeight: 320)
+        .frame(minWidth: 400, minHeight: 320)
     }
 }
 
