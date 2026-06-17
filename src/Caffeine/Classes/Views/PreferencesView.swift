@@ -9,8 +9,8 @@ import SwiftUI
 ///
 /// Uses the macOS 15+ Tab initializer. To work around the
 /// segmented control caching its appearance at window creation,
-/// observes `NSApp.effectiveAppearance` and forces the window to
-/// re-evaluate on theme change.
+/// observes `NSApp.effectiveAppearance` via KVO and forces the
+/// TabView to recreate when the theme changes.
 struct PreferencesView: View {
     @Bindable var viewModel: CaffeineViewModel
     let updater: UpdaterController
@@ -38,9 +38,10 @@ struct PreferencesView: View {
     }
 }
 
-/// Observes `NSApp.effectiveAppearance` changes and exposes the
-/// current appearance as a string. Used as a view identity so
-/// SwiftUI recreates the TabView when the theme changes.
+/// Observes `NSApp.effectiveAppearance` changes via KVO and
+/// exposes the current appearance as a string. Used as a view
+/// identity so SwiftUI recreates the TabView when the theme
+/// changes.
 @Observable
 private final class AppearanceObserver {
     var effectiveAppearance: String = NSApp.effectiveAppearance.bestMatch(from: [
@@ -48,17 +49,19 @@ private final class AppearanceObserver {
         .aqua,
     ])?.rawValue ?? "unknown"
 
+    private var observation: NSKeyValueObservation?
+
     init() {
-        NotificationCenter.default.addObserver(
-            forName: NSApplication.didChangeScreenParametersNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.effectiveAppearance = NSApp.effectiveAppearance.bestMatch(from: [
-                .darkAqua,
-                .aqua,
-            ])?.rawValue ?? "unknown"
+        self.observation = NSApp.observe(\.effectiveAppearance, options: [.new]) { [weak self] app, _ in
+            let current = app.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua])?.rawValue ?? "unknown"
+            DispatchQueue.main.async {
+                self?.effectiveAppearance = current
+            }
         }
+    }
+
+    deinit {
+        self.observation?.invalidate()
     }
 }
 
