@@ -7,69 +7,59 @@ import SwiftUI
 
 /// Root of the Settings window. Hosts two tabs: General and About.
 ///
-/// Uses the macOS 15+ Tab initializer. To work around the
-/// segmented control caching its appearance at window creation,
-/// observes `NSApp.effectiveAppearance` via KVO and forces
-/// `NSApp.appearance` to update, which makes the segmented
-/// control re-render in the new theme without rebuilding the
-/// entire TabView.
+/// Uses a Picker(.segmented) for the tab bar — it follows the
+/// system light/dark theme live, unlike the macOS 15+ Tab
+/// initializer which caches its appearance at window creation.
+/// Tab content is rendered with conditional `if/else` to properly
+/// isolate each tab's view.
 struct PreferencesView: View {
     @Bindable var viewModel: CaffeineViewModel
     let updater: UpdaterController
 
-    @State private var appearanceObserver = AppearanceObserver()
+    enum Tab: String, CaseIterable, Identifiable {
+        case general
+        case about
+
+        var id: String {
+            self.rawValue
+        }
+    }
+
+    @State private var selection: Tab = .general
 
     var body: some View {
-        TabView {
-            Tab(
-                String(localized: "General", comment: "Settings tab: General"),
-                systemImage: "gearshape"
-            ) {
-                GeneralSettingsView(viewModel: self.viewModel)
+        VStack(spacing: 0) {
+            // Tab bar
+            Picker("", selection: self.$selection) {
+                ForEach(Tab.allCases) { tab in
+                    Text(self.title(for: tab)).tag(tab)
+                }
             }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .padding(.horizontal, 20)
+            .padding(.top, 16)
+            .padding(.bottom, 12)
 
-            Tab(
-                String(localized: "About", comment: "Settings tab: About"),
-                systemImage: "info.circle"
-            ) {
+            Divider()
+
+            // Tab content - use if/else to properly isolate views
+            if self.selection == .general {
+                GeneralSettingsView(viewModel: self.viewModel)
+            } else {
                 AboutView(updater: self.updater)
             }
         }
-        .frame(minWidth: 480, minHeight: 300)
-        .onChange(of: self.appearanceObserver.effectiveAppearance) {
-            // Force NSApp to use the new appearance, which causes
-            // all segmented controls to re-render in the new theme.
-            let name: NSAppearance.Name = self.appearanceObserver.effectiveAppearance == NSAppearance.Name.darkAqua
-                .rawValue
-                ? .darkAqua
-                : .aqua
-            NSApp.appearance = NSAppearance(named: name)
-        }
-    }
-}
-
-/// Observes `NSApp.effectiveAppearance` changes via KVO and
-/// exposes the current appearance as a string.
-@Observable
-private final class AppearanceObserver {
-    var effectiveAppearance: String = NSApp.effectiveAppearance.bestMatch(from: [
-        .darkAqua,
-        .aqua,
-    ])?.rawValue ?? "unknown"
-
-    private var observation: NSKeyValueObservation?
-
-    init() {
-        self.observation = NSApp.observe(\.effectiveAppearance, options: [.new]) { [weak self] app, _ in
-            let current = app.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua])?.rawValue ?? "unknown"
-            if self?.effectiveAppearance != current {
-                self?.effectiveAppearance = current
-            }
-        }
+        .frame(width: 480, height: 320)
     }
 
-    deinit {
-        self.observation?.invalidate()
+    private func title(for tab: Tab) -> String {
+        switch tab {
+        case .general:
+            String(localized: "General", comment: "Settings tab title")
+        case .about:
+            String(localized: "About", comment: "Settings tab title")
+        }
     }
 }
 
