@@ -32,6 +32,21 @@ struct PreferencesView: View {
             }
         }
         .frame(minWidth: 520, minHeight: 320)
+        .toolbar {
+            ToolbarItem(placement: .destructiveAction) {
+                Button(String(localized: "Quit")) {
+                    NSApp.terminate(nil)
+                }
+            }
+
+            ToolbarItem(placement: .confirmationAction) {
+                Button(String(localized: "Close")) {
+                    NSApp.keyWindow?.close()
+                }
+                .buttonStyle(.borderedProminent)
+                .keyboardShortcut(.defaultAction)
+            }
+        }
     }
 }
 

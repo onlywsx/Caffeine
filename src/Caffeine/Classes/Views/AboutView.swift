@@ -11,9 +11,6 @@ import SwiftUI
 struct AboutView: View {
     let updater: UpdaterController
 
-    /// The bundle's marketing version (e.g. "1.6.5"). Read once at
-    /// view init because the value is constant for the lifetime of
-    /// the process.
     private let version: String = {
         if let v = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
             return v
@@ -24,30 +21,27 @@ struct AboutView: View {
     private let repoURL = URL(string: "https://github.com/dominc/Caffeine")!
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // App icon + name + version + description
-            HStack(alignment: .center, spacing: 16) {
+        VStack(spacing: 20) {
+            // App icon + name + version
+            VStack(spacing: 8) {
                 Image(nsImage: NSImage(named: NSImage.applicationIconName) ?? NSImage())
                     .resizable()
                     .frame(width: 100, height: 100)
 
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Caffeine")
-                        .font(.system(size: 20, weight: .semibold))
+                Text("Caffeine")
+                    .font(.system(size: 20, weight: .semibold))
 
-                    Text(String(
-                        format: String(localized: "Version %@", comment: "About tab version label"),
-                        self.version
-                    ))
-                    .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
-
-                    Text("Caffeine keeps your Mac awake.")
-                        .font(.system(size: 13))
-                }
+                Text(String(
+                    format: String(localized: "Version %@", comment: "About tab version label"),
+                    self.version
+                ))
+                .font(.system(size: 11))
+                .foregroundStyle(.secondary)
             }
 
-            Spacer()
+            // Description
+            Text("Caffeine keeps your Mac awake.")
+                .font(.system(size: 13))
 
             // Action buttons
             HStack(spacing: 12) {
@@ -64,7 +58,7 @@ struct AboutView: View {
                 }
             }
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
