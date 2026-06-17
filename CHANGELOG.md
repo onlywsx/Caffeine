@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Settings window now has a two-tab layout: **General** (existing
+  preferences) and **About** (app version, description, GitHub
+  link, Check for Updates).
+- "Check for Updates" moved from the menu bar item to the About tab.
+
 ## [1.6.5] - 2026-06-16
 
 ### Changed
