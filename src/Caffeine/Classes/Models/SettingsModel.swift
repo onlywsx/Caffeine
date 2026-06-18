@@ -83,11 +83,3 @@ enum PreferenceKeys {
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
     static let keepAppsActive = "CAKeepAppsActive"
 }
-
-// MARK: - Settings Tabs
-
-// Note: we intentionally do not define a `SettingsTab` enum. The
-// native `Settings { TabView { ... } }` API in macOS 15+ manages tab
-// selection internally when `Tab` is constructed with
-// `content:` + `label:` (no `value:` parameter). The system draws
-// the tab bar and tracks selection for us.
