@@ -63,6 +63,7 @@ struct AboutSettings: View {
             }
         }
         .formStyle(.grouped)
+        .focusEffectDisabled()
     }
 }
 

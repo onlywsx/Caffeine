@@ -33,6 +33,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   still accepts keyboard focus for accessibility, but no visual
   focus indicator is drawn. The selected tab is still indicated
   by the system color.
+- Hidden the keyboard focus ring on every control inside the
+  Settings tabs (toggles, pickers, buttons). Combined with the
+  tab bar change above, the window now has no focus ring on
+  open — pressing Tab cycles focus for accessibility but no
+  visual ring is shown.
+- Reduced the Settings window's `minWidth` from 480 to 380
+  points so the panel is less obtrusive on smaller displays.
 
 ### Changed
 

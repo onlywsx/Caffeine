@@ -66,6 +66,7 @@ struct GeneralSettings: View {
             }
         }
         .formStyle(.grouped)
+        .focusEffectDisabled()
         .onChange(of: self.settings.defaultDuration) { _, _ in
             self.settings.persist(PreferenceKeys.defaultDuration)
         }

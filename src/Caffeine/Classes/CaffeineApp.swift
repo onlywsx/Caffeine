@@ -53,7 +53,7 @@ struct CaffeineApp: App {
                 }
             }
             .focusEffectDisabled()
-            .frame(minWidth: 480, minHeight: 360)
+            .frame(minWidth: 380, minHeight: 360)
         }
     }
 }
