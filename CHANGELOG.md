@@ -24,12 +24,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Settings tab bar now follows the system light/dark theme.
-  Switched from the `.tabItem`-based `TabView` (which on macOS
-  14.6 cached its appearance at window creation and only
-  refreshed on relaunch) to the macOS 15+ `Tab` initializer,
-  which re-evaluates colors when the system theme changes.
-- Minimum macOS version raised to 15.6 to enable the modern
-  `Tab` API.
+  The macOS 15+ `Tab` initializer was replaced with custom
+  `SettingsTabButton` views (inspired by the Apple Notes settings
+  window) that render as native SwiftUI components and therefore
+  respond to appearance changes in real time.
+
+### Changed
+
+- Settings window now uses the native `Settings { TabView { Tab { ... } } }` API (macOS 14+), removing the custom tab buttons and the `SettingsTabButtonStyle` workaround. Tab theming now follows the system appearance automatically.
+- All user preferences are now read and written through a single `SettingsModel` (`@Observable`), replacing scattered `UserDefaults.standard.bool(forKey:)` calls in `CaffeineViewModel` and per-view `@AppStorage` bindings.
+- `AppDelegate` no longer observes `NSApp.effectiveAppearance` to force-update window appearance; system default behaviour is relied upon instead.
+- The "About" tab now uses `Form` with `.formStyle(.grouped)` for visual consistency with the "General" tab.
 
 ## [1.6.5] - 2026-06-16
 
