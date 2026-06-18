@@ -29,20 +29,27 @@ struct CaffeineApp: App {
         // Native macOS Settings scene with a tabbed layout. The
         // system owns the title bar, tab chrome, and appearance
         // following.
+        //
+        // Tabs are bound to a `SettingsTab` selection so we can
+        // pass a plain `LocalizedStringKey` title without a
+        // `systemImage:`. The system `Tab(_:systemImage:)` API
+        // wraps every icon in a soft icon-container background
+        // even when the tab is unselected, which reads as a
+        // glow / pill around every icon. Text-only labels keep
+        // the tab bar minimal and match the system Settings
+        // window's compact two-tab layout.
         Settings {
             TabView {
-                Tab(
-                    String(localized: "General"),
-                    systemImage: "gearshape"
-                ) {
+                Tab {
                     GeneralSettings(viewModel: self.viewModel, settings: self.settings)
+                } label: {
+                    Text("General")
                 }
 
-                Tab(
-                    String(localized: "About"),
-                    systemImage: "info.circle"
-                ) {
+                Tab {
                     AboutSettings(updater: self.updater)
+                } label: {
+                    Text("About")
                 }
             }
             .frame(minWidth: 480, minHeight: 360)
