@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `SettingsTabButton` views (inspired by the Apple Notes settings
   window) that render as native SwiftUI components and therefore
   respond to appearance changes in real time.
+- Hidden the keyboard focus ring (the soft pill around the
+  initially-selected tab) in the Settings window. The tab bar
+  still accepts keyboard focus for accessibility, but no visual
+  focus indicator is drawn. The selected tab is still indicated
+  by the system color.
 
 ### Changed
 

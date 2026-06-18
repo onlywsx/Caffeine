@@ -29,6 +29,13 @@ struct CaffeineApp: App {
         // Native macOS Settings scene with a tabbed layout. The
         // system owns the title bar, tab chrome, and appearance
         // following.
+        //
+        // `.focusEffectDisabled()` hides the keyboard focus ring
+        // (the soft pill around the selected tab) that the system
+        // draws on the initially-focused tab. The tab bar still
+        // accepts keyboard focus for accessibility, but no visual
+        // ring is shown — the tab's selected state is already
+        // indicated by the system color.
         Settings {
             TabView {
                 Tab(
@@ -45,6 +52,7 @@ struct CaffeineApp: App {
                     AboutSettings(updater: self.updater)
                 }
             }
+            .focusEffectDisabled()
             .frame(minWidth: 480, minHeight: 360)
         }
     }
