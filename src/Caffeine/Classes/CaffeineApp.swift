@@ -36,6 +36,11 @@ struct CaffeineApp: App {
         // accepts keyboard focus for accessibility, but no visual
         // ring is shown — the tab's selected state is already
         // indicated by the system color.
+        //
+        // `.defaultSize()` sets the initial window size. The
+        // previous `.frame(minWidth:)` only constrained the
+        // content, not the window itself, so the window could
+        // open wider than 480.
         Settings {
             TabView {
                 Tab(
@@ -55,5 +60,6 @@ struct CaffeineApp: App {
             .focusEffectDisabled()
             .frame(minWidth: 380, minHeight: 360)
         }
+        .defaultSize(width: 380, height: 360)
     }
 }

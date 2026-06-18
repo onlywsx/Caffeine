@@ -54,12 +54,14 @@ struct AboutSettings: View {
                 } label: {
                     Text(String(localized: "View on GitHub", comment: "About tab: open repo in browser"))
                 }
+                .focusEffectDisabled()
 
                 Button {
                     self.updater.checkForUpdates()
                 } label: {
                     Text(String(localized: "Check for Updates...", comment: "About tab: trigger Sparkle update check"))
                 }
+                .focusEffectDisabled()
             }
         }
         .formStyle(.grouped)
