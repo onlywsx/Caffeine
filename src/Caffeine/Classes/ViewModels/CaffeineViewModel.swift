@@ -21,6 +21,9 @@ final class CaffeineViewModel {
     // MARK: - Ignored (private) Properties
 
     @ObservationIgnored
+    private let settings: SettingsModel
+
+    @ObservationIgnored
     private var timeoutTimer: Timer?
 
     @ObservationIgnored
@@ -31,15 +34,16 @@ final class CaffeineViewModel {
 
     // MARK: - Initialization
 
-    init() {
+    init(settings: SettingsModel = SettingsModel()) {
         // Explicitly ensure we start inactive
         self.isActive = false
         self.timeRemaining = nil
+        self.settings = settings
 
         self.setupObservers()
 
         // Check if we should activate at launch
-        if UserDefaults.standard.bool(forKey: PreferenceKeys.activateAtLaunch) {
+        if self.settings.activateAtLaunch {
             self.activate()
         }
     }
@@ -62,7 +66,7 @@ final class CaffeineViewModel {
         if let timeout {
             duration = timeout > 0 ? timeout : nil
         } else {
-            let defaultMinutes = UserDefaults.standard.integer(forKey: PreferenceKeys.defaultDuration)
+            let defaultMinutes = self.settings.defaultDuration
             duration = defaultMinutes > 0 ? TimeInterval(defaultMinutes * 60) : nil
         }
 
@@ -110,7 +114,7 @@ final class CaffeineViewModel {
         self.isActive = true
         SleepPreventionManager.shared.preventSleep()
 
-        if UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive) {
+        if self.settings.keepAppsActive {
             ActivitySimulator.shared.startMonitoring()
         }
     }
@@ -124,8 +128,14 @@ final class CaffeineViewModel {
         ActivitySimulator.shared.stopMonitoring()
     }
 
-    /// Updates activity simulation based on preference
+    /// Updates activity simulation based on preference. Also keeps the
+    /// `SettingsModel` and `UserDefaults` in sync with the new value.
     func updateActivitySimulation(enabled: Bool) {
+        if self.settings.keepAppsActive != enabled {
+            self.settings.keepAppsActive = enabled
+            self.settings.persist(PreferenceKeys.keepAppsActive)
+        }
+
         if enabled {
             // Trigger the Accessibility permission prompt by posting a no-op event
             // This prompts for "Events" permission which CGEvent.post requires
@@ -175,7 +185,7 @@ final class CaffeineViewModel {
         NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.willSleepNotification)
             .sink { [weak self] _ in
                 Task { @MainActor in
-                    if UserDefaults.standard.bool(forKey: PreferenceKeys.deactivateOnManualSleep) {
+                    if self?.settings.deactivateOnManualSleep == true {
                         self?.deactivate()
                     }
                 }
@@ -202,13 +212,4 @@ final class CaffeineViewModel {
         self.displayTimer?.invalidate()
         self.displayTimer = nil
     }
-}
-
-// MARK: - Preference Keys
-
-enum PreferenceKeys {
-    static let activateAtLaunch = "CAActivateAtLaunch"
-    static let defaultDuration = "CADefaultDuration"
-    static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
-    static let keepAppsActive = "CAKeepAppsActive"
 }
