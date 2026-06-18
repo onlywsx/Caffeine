@@ -34,11 +34,11 @@ final class CaffeineViewModel {
 
     // MARK: - Initialization
 
-    init(settings: SettingsModel = SettingsModel()) {
+    init(settings: SettingsModel? = nil) {
         // Explicitly ensure we start inactive
         self.isActive = false
         self.timeRemaining = nil
-        self.settings = settings
+        self.settings = settings ?? SettingsModel()
 
         self.setupObservers()
 
