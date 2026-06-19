@@ -18,9 +18,9 @@ struct CaffeineApp: App {
     var body: some Scene {
         // macOS 27 recommended menu bar API. Renders the
         // `active` / `inactive` template image as the icon and
-        // shows `MenuBarContent` on left- or right-click.
+        // shows `MenuBarContentView` on left- or right-click.
         MenuBarExtra {
-            MenuBarContent(viewModel: self.viewModel, updater: self.updater)
+            MenuBarContentView(viewModel: self.viewModel, updater: self.updater)
         } label: {
             Image(self.viewModel.isActive ? "active" : "inactive")
         }
@@ -45,21 +45,21 @@ struct CaffeineApp: App {
             TabView {
                 Tab(
                     String(localized: "General"),
-                    systemImage: "gearshape"
+                    systemImage: "gear"
                 ) {
-                    GeneralSettings(viewModel: self.viewModel, settings: self.settings)
+                    GeneralSettingsView(viewModel: self.viewModel, settings: self.settings)
                 }
 
                 Tab(
                     String(localized: "About"),
                     systemImage: "info.circle"
                 ) {
-                    AboutSettings(updater: self.updater)
+                    AboutSettingsView(updater: self.updater)
                 }
             }
             .focusEffectDisabled()
-            .frame(minWidth: 380, minHeight: 360)
+            .frame(minWidth: 440, minHeight: 360)
         }
-        .defaultSize(width: 380, height: 360)
+        .defaultSize(width: 440, height: 360)
     }
 }
