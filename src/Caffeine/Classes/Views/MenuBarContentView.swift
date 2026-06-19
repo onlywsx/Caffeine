@@ -1,5 +1,5 @@
 //
-//  MenuBarContent.swift
+//  MenuBarContentView.swift
 //  Caffeine
 //
 //  Created by Dominic Rodemer on 11.11.25.
@@ -16,7 +16,7 @@ import SwiftUI
 /// `NSStatusBarButton` right-mouse regression that previously
 /// required a session-level `CGEventTap` and accessibility
 /// permission.
-struct MenuBarContent: View {
+struct MenuBarContentView: View {
     @Bindable var viewModel: CaffeineViewModel
     let updater: UpdaterController
 
@@ -58,7 +58,7 @@ struct MenuBarContent: View {
 
         Divider()
 
-        Button(String(localized: "Preferences...")) {
+        Button(String(localized: "Settings...")) {
             NSApp.activate(ignoringOtherApps: true)
             self.openSettings()
         }

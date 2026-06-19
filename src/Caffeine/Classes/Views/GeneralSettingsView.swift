@@ -1,5 +1,5 @@
 //
-//  GeneralSettings.swift
+//  GeneralSettingsView.swift
 //  Caffeine
 //
 
@@ -10,7 +10,7 @@ import SwiftUI
 /// simple toggles and inline in the binding's `set` closure for the
 /// `Keep apps active` toggle (which has a side effect on
 /// `CaffeineViewModel`).
-struct GeneralSettings: View {
+struct GeneralSettingsView: View {
     @Bindable var viewModel: CaffeineViewModel
     @Bindable var settings: SettingsModel
 
@@ -84,7 +84,7 @@ struct GeneralSettings: View {
 }
 
 #Preview {
-    GeneralSettings(
+    GeneralSettingsView(
         viewModel: CaffeineViewModel(),
         settings: SettingsModel()
     )

@@ -1,5 +1,5 @@
 //
-//  AboutSettings.swift
+//  AboutSettingsView.swift
 //  Caffeine
 //
 
@@ -8,8 +8,8 @@ import SwiftUI
 
 /// "About" tab. Read-only metadata about the app plus a Check for
 /// Updates button. Uses `Form(.grouped)` to match the visual language
-/// of `GeneralSettings`.
-struct AboutSettings: View {
+/// of `GeneralSettingsView`.
+struct AboutSettingsView: View {
     let updater: UpdaterController
 
     private let version: String = {
@@ -70,6 +70,6 @@ struct AboutSettings: View {
 }
 
 #Preview {
-    AboutSettings(updater: UpdaterController())
+    AboutSettingsView(updater: UpdaterController())
         .environment(\.locale, .init(identifier: "en"))
 }
