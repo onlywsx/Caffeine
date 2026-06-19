@@ -17,19 +17,21 @@
 
 /* Menu items */
 "Check for Updates..." = "Перевірити оновлення...";
-"Preferences..." = "Налаштування...";
+"Settings..." = "Налаштування...";
+"General" = "Загальні";
+"About" = "Про";
 "About Caffeine" = "Про Caffeine";
 "Deactivate Caffeine" = "Вимкнути Caffeine";
 "Quit" = "Завершити";
 
 "Activate Caffeine" = "Увімкнути Caffeine";
 
-/* Preferences instructions */
+/* Settings instructions */
 "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine працює. Іконка знаходиться праворуч у смузі меню. Натисніть, щоб вимкнути автоматичний сон; натисніть знову, щоб увімкнути.";
 "Click the menu bar icon to open the Caffeine menu." = "Натисніть на іконку в смузі меню, щоб відкрити меню Caffeine.";
 
-/* Preferences labels */
-"Default duration:" = "Тривалість за замовчуванням:";
+/* Settings labels */
+"Default duration" = "Тривалість за замовчуванням";
 "Activate when starting Caffeine" = "Увімкнути при запуску Caffeine";
 "Deactivate when device goes to sleep manually" = "Вимикати, коли пристрій переходить у сон вручну";
 "Keep apps active" = "Тримати застосунки активними";

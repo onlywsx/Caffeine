@@ -17,19 +17,21 @@
 
 /* Menu items */
 "Check for Updates..." = "Buscar actualizaciones...";
-"Preferences..." = "Preferencias...";
+"Settings..." = "Ajustes...";
+"General" = "General";
+"About" = "Acerca de";
 "About Caffeine" = "Acerca de Caffeine";
 "Deactivate Caffeine" = "Desactivar Caffeine";
 "Quit" = "Salir";
 
 "Activate Caffeine" = "Activar Caffeine";
 
-/* Preferences instructions */
+/* Settings instructions */
 "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine ya se está ejecutando. Puedes encontrar su icono en el lado derecho de la barra de menús. Haz clic para desactivar el reposo automático; haz clic de nuevo para volver a activarlo.";
 "Click the menu bar icon to open the Caffeine menu." = "Haz clic en el icono de la barra de menús para abrir el menú de Caffeine.";
 
-/* Preferences labels */
-"Default duration:" = "Duración predeterminada:";
+/* Settings labels */
+"Default duration" = "Duración predeterminada";
 "Activate when starting Caffeine" = "Activar al iniciar Caffeine";
 "Deactivate when device goes to sleep manually" = "Desactivar cuando el dispositivo entra en reposo manualmente";
 "Keep apps active" = "Mantener apps activas";

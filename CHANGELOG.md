@@ -19,30 +19,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First-launch pop-up of the Settings window (and its associated
   "Show this message when starting Caffeine" preference). Users
   open Settings themselves from the menu bar via
-  `Preferences…`.
-
-### Fixed
-
-- Settings tab bar now follows the system light/dark theme.
-  The macOS 15+ `Tab` initializer was replaced with custom
-  `SettingsTabButton` views (inspired by the Apple Notes settings
-  window) that render as native SwiftUI components and therefore
-  respond to appearance changes in real time.
-- Hidden the keyboard focus ring (the soft pill around the
-  initially-selected tab) in the Settings window. The tab bar
-  still accepts keyboard focus for accessibility, but no visual
-  focus indicator is drawn. The selected tab is still indicated
-  by the system color.
-- Hidden the keyboard focus ring on every control inside the
-  Settings tabs (toggles, pickers, buttons). Combined with the
-  tab bar change above, the window now has no focus ring on
-  open — pressing Tab cycles focus for accessibility but no
-  visual ring is shown.
-- Reduced the Settings window's `minWidth` from 480 to 380
-  points so the panel is less obtrusive on smaller displays.
+  `Settings…`.
 
 ### Changed
 
+- Menu bar item label renamed from `Preferences…` to `Settings…`
+  in every supported language. Updated across all 14
+  `Localizable.strings` files (en, zh-Hans, de, ja, ko, es, fr,
+  it, nl, pt, pt-BR, ru, uk) and the source string in
+  `MenuBarContentView.swift`.
+- Renamed the view files in `Classes/Views/` to follow the
+  `*View` convention: `GeneralSettings` / `AboutSettings` /
+  `MenuBarContent` are now `GeneralSettingsView` /
+  `AboutSettingsView` / `MenuBarContentView`.
+- Settings window minimum width and default size widened from
+  380pt to 440pt so toggles and labels no longer hug the edge.
 - Settings window now uses the native `Settings { TabView { Tab { ... } } }` API (macOS 14+), removing the custom tab buttons and the `SettingsTabButtonStyle` workaround. Tab theming now follows the system appearance automatically.
 - All user preferences are now read and written through a single `SettingsModel` (`@Observable`), replacing scattered `UserDefaults.standard.bool(forKey:)` calls in `CaffeineViewModel` and per-view `@AppStorage` bindings.
 - `AppDelegate` no longer observes `NSApp.effectiveAppearance` to force-update window appearance; system default behaviour is relied upon instead.
