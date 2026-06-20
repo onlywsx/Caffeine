@@ -9,10 +9,14 @@ import SwiftUI
 /// `SettingsModel`; persistence is triggered via `.onChange` for the
 /// simple toggles and inline in the binding's `set` closure for the
 /// `Keep apps active` toggle (which has a side effect on
-/// `CaffeineViewModel`).
+/// `CaffeineViewModel`) and the `Start at login` toggle (which calls
+/// `LoginItemService`).
 struct GeneralSettingsView: View {
     @Bindable var viewModel: CaffeineViewModel
     @Bindable var settings: SettingsModel
+    var loginItem: any LoginItemService = LiveLoginItemService()
+
+    @State private var loginItemErrorMessage: String?
 
     var body: some View {
         Form {
@@ -42,6 +46,33 @@ struct GeneralSettingsView: View {
                     String(localized: "Deactivate when device goes to sleep manually"),
                     isOn: self.$settings.deactivateOnManualSleep
                 )
+            }
+
+            Section {
+                Toggle(
+                    String(localized: "Start at login"),
+                    isOn: Binding(
+                        get: { self.settings.startAtLogin },
+                        set: { newValue in
+                            self.settings.startAtLogin = newValue
+                            self.settings.persist(PreferenceKeys.startAtLogin)
+                            Task { await self.applyLoginItemChange(newValue) }
+                        }
+                    )
+                )
+
+                if let message = self.loginItemErrorMessage {
+                    Text(message)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+
+                Text(String(
+                    localized: "Automatically start Caffeine when you log in to your Mac.",
+                    comment: "Help text for the Start at login toggle"
+                ))
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
 
             Section {
@@ -76,12 +107,28 @@ struct GeneralSettingsView: View {
             self.settings.persist(PreferenceKeys.deactivateOnManualSleep)
         }
     }
+
+    /// Apply the user's toggle change to the underlying
+    /// `LoginItemService`. On failure, revert both the in-memory
+    /// setting and the persisted preference, and surface a one-line
+    /// error message under the toggle.
+    private func applyLoginItemChange(_ newValue: Bool) async {
+        do {
+            try await self.loginItem.setEnabled(newValue)
+            self.loginItemErrorMessage = nil
+        } catch {
+            self.settings.startAtLogin.toggle()
+            self.settings.persist(PreferenceKeys.startAtLogin)
+            self.loginItemErrorMessage = error.localizedDescription
+        }
+    }
 }
 
 #Preview {
     GeneralSettingsView(
         viewModel: CaffeineViewModel(),
-        settings: SettingsModel()
+        settings: SettingsModel(),
+        loginItem: FakeLoginItemService()
     )
     .environment(\.locale, .init(identifier: "en"))
 }
