@@ -1,0 +1,102 @@
+//
+//  LoginItemServiceTests.swift
+//  Caffeine
+//
+//  Tests for the in-memory `FakeLoginItemService`. Will be picked up
+//  once an XCTest target is added to the project (follow-up — adding
+//  a target requires editing `.xcodeproj`, which is forbidden without
+//  explicit user permission per AGENTS.md).
+//
+
+import XCTest
+
+@MainActor
+final class LoginItemServiceTests: XCTestCase {
+    func testSetEnabledTrueFlipsStatusToEnabled() async throws {
+        let service = FakeLoginItemService(initialStatus: .disabled)
+
+        try await service.setEnabled(true)
+
+        XCTAssertEqual(service.status, .enabled)
+    }
+
+    func testSetEnabledFalseFlipsStatusToDisabled() async throws {
+        let service = FakeLoginItemService(initialStatus: .enabled)
+
+        try await service.setEnabled(false)
+
+        XCTAssertEqual(service.status, .disabled)
+    }
+
+    func testSetEnabledTrueWithForcedUnderlyingErrorThrowsAndLeavesStatusUnchanged() async {
+        let service = FakeLoginItemService(initialStatus: .disabled)
+        service.setNextError { .underlying("synthetic") }
+
+        do {
+            try await service.setEnabled(true)
+            XCTFail("Expected throw")
+        } catch let error as LoginItemError {
+            switch error {
+            case let .underlying(message):
+                XCTAssertEqual(message, "synthetic")
+            case .userCancelled:
+                XCTFail("Expected .underlying, got .userCancelled")
+            }
+        } catch {
+            XCTFail("Unexpected error type: \(error)")
+        }
+
+        XCTAssertEqual(service.status, .disabled)
+    }
+
+    func testSetEnabledFalseWithForcedUnderlyingErrorThrowsAndLeavesStatusUnchanged() async {
+        let service = FakeLoginItemService(initialStatus: .enabled)
+        service.setNextError { .underlying("synthetic") }
+
+        do {
+            try await service.setEnabled(false)
+            XCTFail("Expected throw")
+        } catch let error as LoginItemError {
+            switch error {
+            case let .underlying(message):
+                XCTAssertEqual(message, "synthetic")
+            case .userCancelled:
+                XCTFail("Expected .underlying, got .userCancelled")
+            }
+        } catch {
+            XCTFail("Unexpected error type: \(error)")
+        }
+
+        XCTAssertEqual(service.status, .enabled)
+    }
+
+    func testForcedErrorIsConsumedAfterOneInvocation() async throws {
+        let service = FakeLoginItemService()
+        service.setNextError { .underlying("once") }
+
+        do {
+            try await service.setEnabled(true)
+            XCTFail("Expected throw on first call")
+        } catch {
+            // expected
+        }
+
+        // Second call should succeed because the injected factory was
+        // consumed.
+        try await service.setEnabled(true)
+        XCTAssertEqual(service.status, .enabled)
+    }
+
+    func testRefreshIsNoOpForFake() async {
+        let service = FakeLoginItemService(initialStatus: .requiresApproval)
+
+        await service.refresh()
+
+        XCTAssertEqual(service.status, .requiresApproval)
+    }
+
+    func testLoginItemErrorErrorDescription() {
+        XCTAssertNotNil(LoginItemError.underlying("x").errorDescription)
+        XCTAssertNotNil(LoginItemError.userCancelled.errorDescription)
+    }
+}
