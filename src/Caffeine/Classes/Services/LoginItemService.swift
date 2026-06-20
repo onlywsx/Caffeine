@@ -132,7 +132,7 @@ final class LiveLoginItemService: LoginItemService {
             throw LoginItemError.userCancelled
         } catch {
             DZErrorLog(error)
-            throw LoginItemError.underlying(String(describing: error))
+            throw LoginItemError.underlying(error.localizedDescription)
         }
         await self.refresh()
     }
