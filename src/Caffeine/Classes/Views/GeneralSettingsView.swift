@@ -31,7 +31,6 @@ struct GeneralSettingsView: View {
                     Text(String(localized: "Indefinitely")).tag(0)
                 }
                 .pickerStyle(.menu)
-                .focusEffectDisabled()
             }
 
             Section {
@@ -39,12 +38,10 @@ struct GeneralSettingsView: View {
                     String(localized: "Activate when starting Caffeine"),
                     isOn: self.$settings.activateAtLaunch
                 )
-                .focusEffectDisabled()
                 Toggle(
                     String(localized: "Deactivate when device goes to sleep manually"),
                     isOn: self.$settings.deactivateOnManualSleep
                 )
-                .focusEffectDisabled()
             }
 
             Section {
@@ -59,7 +56,6 @@ struct GeneralSettingsView: View {
                         }
                     )
                 )
-                .focusEffectDisabled()
 
                 Text(String(
                     localized: "Prevents apps from becoming inactive and the screen saver from starting.",
@@ -70,7 +66,6 @@ struct GeneralSettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .focusEffectDisabled()
         .onChange(of: self.settings.defaultDuration) { _, _ in
             self.settings.persist(PreferenceKeys.defaultDuration)
         }

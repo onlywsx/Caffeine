@@ -30,13 +30,6 @@ struct CaffeineApp: App {
         // system owns the title bar, tab chrome, and appearance
         // following.
         //
-        // `.focusEffectDisabled()` hides the keyboard focus ring
-        // (the soft pill around the selected tab) that the system
-        // draws on the initially-focused tab. The tab bar still
-        // accepts keyboard focus for accessibility, but no visual
-        // ring is shown — the tab's selected state is already
-        // indicated by the system color.
-        //
         // `.defaultSize()` sets the initial window size. The
         // previous `.frame(minWidth:)` only constrained the
         // content, not the window itself, so the window could
@@ -45,7 +38,7 @@ struct CaffeineApp: App {
             TabView {
                 Tab(
                     String(localized: "General"),
-                    systemImage: "gear"
+                    systemImage: "gearshape"
                 ) {
                     GeneralSettingsView(viewModel: self.viewModel, settings: self.settings)
                 }
@@ -57,7 +50,7 @@ struct CaffeineApp: App {
                     AboutSettingsView(updater: self.updater)
                 }
             }
-            .focusEffectDisabled()
+            // .focusable(false)
             .frame(minWidth: 440, minHeight: 360)
         }
         .defaultSize(width: 440, height: 360)

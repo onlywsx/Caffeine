@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   "Show this message when starting Caffeine" preference). Users
   open Settings themselves from the menu bar via
   `Settings…`.
+- Suppression of the keyboard focus ring on the Settings tab bar
+  and on form controls; SwiftUI's default focus indicator is now
+  shown.
 
 ### Changed
 
@@ -32,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `*View` convention: `GeneralSettings` / `AboutSettings` /
   `MenuBarContent` are now `GeneralSettingsView` /
   `AboutSettingsView` / `MenuBarContentView`.
+- Menu bar `inactive` icon is now a coffee bean (with a central
+  groove) instead of an empty cup, so the two states are clearly
+  different shapes rather than "full cup vs empty cup" variants.
 - Settings window minimum width and default size widened from
   380pt to 440pt so toggles and labels no longer hug the edge.
 - Settings window now uses the native `Settings { TabView { Tab { ... } } }` API (macOS 14+), removing the custom tab buttons and the `SettingsTabButtonStyle` workaround. Tab theming now follows the system appearance automatically.
