@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   preferences) and **About** (app version, description, GitHub
   link, Check for Updates).
 - "Check for Updates" moved from the menu bar item to the About tab.
+- "Start at login" preference in Settings → General. When enabled,
+  Caffeine registers itself with `SMAppService.mainApp` so it
+  launches automatically on user login. Default is off.
 
 ### Removed
 
