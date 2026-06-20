@@ -81,7 +81,7 @@ final class SettingsModel {
 
 // MARK: - Preference Keys
 
-/// `UserDefaults` keys for the four user preferences. Centralised here
+/// `UserDefaults` keys for the user preferences. Centralised here
 /// so that `SettingsModel`, `CaffeineViewModel`, and view bindings all
 /// share the same string constants.
 enum PreferenceKeys {
