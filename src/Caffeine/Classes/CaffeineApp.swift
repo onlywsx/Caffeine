@@ -14,6 +14,7 @@ struct CaffeineApp: App {
     @State private var viewModel = CaffeineViewModel()
     @State private var settings = SettingsModel()
     @State private var updater = UpdaterController()
+    @State private var loginItem: any LoginItemService = LiveLoginItemService()
 
     var body: some Scene {
         // macOS 27 recommended menu bar API. Renders the
@@ -40,7 +41,11 @@ struct CaffeineApp: App {
                     String(localized: "General"),
                     systemImage: "gearshape"
                 ) {
-                    GeneralSettingsView(viewModel: self.viewModel, settings: self.settings)
+                    GeneralSettingsView(
+                        viewModel: self.viewModel,
+                        settings: self.settings,
+                        loginItem: self.loginItem
+                    )
                 }
 
                 Tab(
@@ -52,6 +57,9 @@ struct CaffeineApp: App {
             }
             // .focusable(false)
             .frame(minWidth: 440, minHeight: 360)
+            .task {
+                await self.loginItem.refresh()
+            }
         }
         .defaultSize(width: 440, height: 360)
     }
