@@ -3,6 +3,7 @@
 //  Caffeine
 //
 
+import DZFoundation
 import Foundation
 import ServiceManagement
 
@@ -100,15 +101,39 @@ final class FakeLoginItemService: LoginItemService {
     }
 }
 
+/// Live `LoginItemService` backed by `SMAppService.mainApp`.
 @MainActor
 final class LiveLoginItemService: LoginItemService {
+    private let service = SMAppService.mainApp
+
     private(set) var status: LoginItemStatus = .unknown
 
     func refresh() async {
-        // Implemented in Task 2.
+        switch self.service.status {
+        case .enabled:
+            self.status = .enabled
+        case .requiresApproval:
+            self.status = .requiresApproval
+        case .notRegistered, .notFound:
+            self.status = .disabled
+        @unknown default:
+            self.status = .unknown
+        }
     }
 
-    func setEnabled(_: Bool) async throws {
-        // Implemented in Task 2.
+    func setEnabled(_ enabled: Bool) async throws {
+        do {
+            if enabled {
+                try await self.service.register()
+            } else {
+                try await self.service.unregister()
+            }
+        } catch is CancellationError {
+            throw LoginItemError.userCancelled
+        } catch {
+            DZErrorLog(error)
+            throw LoginItemError.underlying(String(describing: error))
+        }
+        await self.refresh()
     }
 }
