@@ -33,6 +33,10 @@ final class SettingsModel {
     /// Mirrors `PreferenceKeys.keepAppsActive`.
     var keepAppsActive: Bool
 
+    /// Whether to register Caffeine as a login item so it launches
+    /// at user login. Mirrors `PreferenceKeys.startAtLogin`.
+    var startAtLogin: Bool
+
     // MARK: - UserDefaults Backing
 
     @ObservationIgnored
@@ -46,6 +50,7 @@ final class SettingsModel {
         self.activateAtLaunch = defaults.bool(forKey: PreferenceKeys.activateAtLaunch)
         self.deactivateOnManualSleep = defaults.bool(forKey: PreferenceKeys.deactivateOnManualSleep)
         self.keepAppsActive = defaults.bool(forKey: PreferenceKeys.keepAppsActive)
+        self.startAtLogin = defaults.bool(forKey: PreferenceKeys.startAtLogin)
     }
 
     // MARK: - Persistence
@@ -64,6 +69,8 @@ final class SettingsModel {
             value = self.deactivateOnManualSleep
         case PreferenceKeys.keepAppsActive:
             value = self.keepAppsActive
+        case PreferenceKeys.startAtLogin:
+            value = self.startAtLogin
         default:
             DZLog("SettingsModel.persist: unknown key \(key)")
             return
@@ -82,4 +89,5 @@ enum PreferenceKeys {
     static let defaultDuration = "CADefaultDuration"
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
     static let keepAppsActive = "CAKeepAppsActive"
+    static let startAtLogin = "CAStartAtLogin"
 }
