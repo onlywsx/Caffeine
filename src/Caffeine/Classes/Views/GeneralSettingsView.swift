@@ -49,6 +49,9 @@ struct GeneralSettingsView: View {
             }
 
             Section {
+                // Custom binding: side-effect on LoginItemService.setEnabled(_:) on
+                // every change. The simple $settings.startAtLogin form would silently
+                // skip the system call.
                 Toggle(
                     String(localized: "Start at login"),
                     isOn: Binding(
