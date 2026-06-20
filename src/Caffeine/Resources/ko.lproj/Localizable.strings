@@ -36,6 +36,8 @@
 "Deactivate when device goes to sleep manually" = "수동으로 잠자기에 들어가면 비활성화";
 "Keep apps active" = "앱 활성 상태 유지";
 "Prevents apps from becoming inactive and the screen saver from starting." = "앱이 비활성 상태가 되거나 화면 보호기가 시작되는 것을 방지합니다.";
+"Start at login" = "로그인 시 시작";
+"Automatically start Caffeine when you log in to your Mac." = "Mac에 로그인할 때 Caffeine를 자동으로 시작합니다.";
 "Close" = "닫기";
 
 /* Menu additions */

@@ -36,6 +36,8 @@
 "Deactivate when device goes to sleep manually" = "设备手动睡眠时停用";
 "Keep apps active" = "保持应用活跃";
 "Prevents apps from becoming inactive and the screen saver from starting." = "防止应用变为非活跃状态并阻止屏幕保护程序启动。";
+"Start at login" = "开机时启动";
+"Automatically start Caffeine when you log in to your Mac." = "在登录 Mac 时自动启动 Caffeine。";
 "Close" = "关闭";
 
 /* Menu additions */

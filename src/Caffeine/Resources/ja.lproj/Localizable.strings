@@ -36,6 +36,8 @@
 "Deactivate when device goes to sleep manually" = "手動でスリープしたときに無効化";
 "Keep apps active" = "アプリをアクティブに保つ";
 "Prevents apps from becoming inactive and the screen saver from starting." = "アプリが非アクティブになるのを防ぎ、スクリーンセーバーの起動を防止します。";
+"Start at login" = "ログイン時に起動";
+"Automatically start Caffeine when you log in to your Mac." = "Mac にログインした時に Caffeine を自動的に起動します。";
 "Close" = "閉じる";
 
 /* Menu additions */

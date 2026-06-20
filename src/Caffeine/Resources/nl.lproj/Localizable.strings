@@ -36,6 +36,8 @@
 "Deactivate when device goes to sleep manually" = "Uitschakelen wanneer het apparaat handmatig in sluimerstand gaat";
 "Keep apps active" = "Apps actief houden";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Voorkomt dat apps inactief worden en dat de schermbeveiliging start.";
+"Start at login" = "Starten bij aanmelden";
+"Automatically start Caffeine when you log in to your Mac." = "Start Caffeine automatisch wanneer je je aanmeldt bij je Mac.";
 "Close" = "Sluiten";
 
 /* Menu additions */

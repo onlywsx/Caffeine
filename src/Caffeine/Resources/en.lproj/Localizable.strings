@@ -36,6 +36,8 @@
 "Deactivate when device goes to sleep manually" = "Deactivate when device goes to sleep manually";
 "Keep apps active" = "Keep apps active";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Prevents apps from becoming inactive and the screen saver from starting.";
+"Start at login" = "Start at login";
+"Automatically start Caffeine when you log in to your Mac." = "Automatically start Caffeine when you log in to your Mac.";
 "Close" = "Close";
 
 /* Menu additions */

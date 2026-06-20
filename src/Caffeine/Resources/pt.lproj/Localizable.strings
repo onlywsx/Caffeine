@@ -36,6 +36,8 @@
 "Deactivate when device goes to sleep manually" = "Desativar quando o dispositivo entra em repouso manualmente";
 "Keep apps active" = "Manter apps ativas";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Impede que as apps fiquem inativas e que a proteção de ecrã seja iniciada.";
+"Start at login" = "Iniciar ao iniciar sessão";
+"Automatically start Caffeine when you log in to your Mac." = "Inicia o Caffeine automaticamente quando inicias sessão no teu Mac.";
 "Close" = "Fechar";
 
 /* Menu additions */
