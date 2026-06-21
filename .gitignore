@@ -64,6 +64,7 @@ iOSInjectionProject/
 
 .DS_Store
 *.swp
+.claude/
 /sparkle/framework/bin
 /sparkle/framework/CHANGELOG
 /sparkle/framework/INSTALL

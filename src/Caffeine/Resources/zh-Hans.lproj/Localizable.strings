@@ -19,6 +19,8 @@
 "Check for Updates..." = "检查更新...";
 "Settings..." = "设置...";
 "General" = "通用";
+"Power" = "电源";
+"Keyboard" = "键盘";
 "About" = "关于";
 "About Caffeine" = "关于Caffeine";
 "Deactivate Caffeine" = "关闭 Caffeine";
@@ -38,6 +40,14 @@
 "Prevents apps from becoming inactive and the screen saver from starting." = "防止应用变为非活跃状态并阻止屏幕保护程序启动。";
 "Start at login" = "开机时启动";
 "Automatically start Caffeine when you log in to your Mac." = "在登录 Mac 时自动启动 Caffeine。";
+"Allow display to sleep" = "允许屏幕休眠";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "让屏幕按正常时间表进入休眠，同时保持 Mac 处于唤醒状态。";
+"Activate when power adapter is connected" = "连接电源适配器时自动激活";
+"Deactivate when power adapter is disconnected" = "断开电源适配器时自动停用";
+"Automatically react when connecting or disconnecting the power adapter." = "连接或断开电源适配器时自动响应。";
+"Deactivate on low battery" = "电量低时停用";
+"Threshold:" = "阈值：";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "当电池电量低于阈值时自动停用 Caffeine。";
 "Close" = "关闭";
 
 /* Menu additions */
@@ -49,6 +59,14 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine 会阻止睡眠";
 
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "启用全局切换快捷键";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "在 Mac 上的任意位置按下方快捷键，即可开启或关闭 Caffeine。";
+"Shortcut:" = "快捷键：";
+"Press a key combination…" = "请按键组合…";
+"Reset" = "重置";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "点击输入框并按键组合，即使 Caffeine 不是当前激活的应用，快捷键也能使用。";
+"Not set" = "未设置";
 
 /* Menu items */
 

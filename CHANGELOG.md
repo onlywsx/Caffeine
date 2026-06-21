@@ -9,13 +9,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Settings window now has a two-tab layout: **General** (existing
-  preferences) and **About** (app version, description, GitHub
-  link, Check for Updates).
+- Settings window now has a four-tab layout: **General** (core
+  behaviour preferences), **Power** (display sleep, power adapter,
+  and battery preferences), **Keyboard** (global toggle shortcut),
+  and **About** (app version, description, GitHub link,
+  Check for Updates).
+- Global toggle shortcut in Settings → Keyboard. By default the
+  shortcut is `⌘⇧C` (Command+Shift+C); the user can record any
+  key combination and disable/enable the shortcut from the
+  Keyboard tab. The shortcut is registered via Carbon's
+  `RegisterEventHotKey` API so it works system-wide, even when
+  Caffeine is not the frontmost app, and does not require
+  Accessibility permission.
 - "Check for Updates" moved from the menu bar item to the About tab.
 - "Start at login" preference in Settings → General. When enabled,
   Caffeine registers itself with `SMAppService.mainApp` so it
   launches automatically on user login. Default is off.
+- "Allow display to sleep" preference in Settings → Power. When
+  enabled (the default), Caffeine holds only the system idle
+  assertion so the display can sleep on its normal schedule while
+  the Mac stays awake. When disabled, Caffeine holds the stricter
+  display assertion that also keeps the display awake.
+- "Activate when power adapter is connected" preference in
+  Settings → Power. When enabled, Caffeine automatically activates
+  when a power adapter is connected. Default is off.
+- "Deactivate when power adapter is disconnected" preference in
+  Settings → Power. When enabled, Caffeine automatically
+  deactivates when the power adapter is disconnected. Default is off.
+- "Deactivate on low battery" preference in Settings → Power with
+  a configurable threshold slider (5–50 %, default 20 %). When
+  enabled, Caffeine automatically deactivates when the internal
+  battery drops below the threshold. Desktop Macs without a battery
+  are unaffected.
+
+### Fixed
+
+- "Allow display to sleep", "Activate when power adapter is
+  connected", "Deactivate when power adapter is disconnected",
+  "Deactivate on low battery" toggles and the low-battery threshold
+  slider could not be toggled/adjusted. Their custom `Binding`
+  closures called view-model methods without first writing the new
+  value back to `SettingsModel`, so the getter always returned the
+  stale value and SwiftUI reverted the control.
 
 ### Removed
 

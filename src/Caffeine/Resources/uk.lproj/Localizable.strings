@@ -19,6 +19,8 @@
 "Check for Updates..." = "Перевірити оновлення...";
 "Settings..." = "Налаштування...";
 "General" = "Загальні";
+"Power" = "Живлення";
+"Keyboard" = "Клавіатура";
 "About" = "Про";
 "About Caffeine" = "Про Caffeine";
 "Deactivate Caffeine" = "Вимкнути Caffeine";
@@ -38,6 +40,14 @@
 "Prevents apps from becoming inactive and the screen saver from starting." = "Не дає застосункам переходити в неактивний режим і запускатися заставці.";
 "Start at login" = "Запускати під час входу";
 "Automatically start Caffeine when you log in to your Mac." = "Автоматично запускати Caffeine під час входу в систему на вашому Mac.";
+"Allow display to sleep" = "Дозволити дисплею засинати";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "Дозволяє дисплею засинати за звичайним розкладом, поки Mac залишається активним.";
+"Activate when power adapter is connected" = "Увімкнути при підключенні адаптера живлення";
+"Deactivate when power adapter is disconnected" = "Вимкнути при відключенні адаптера живлення";
+"Automatically react when connecting or disconnecting the power adapter." = "Автоматично реагувати при підключенні або відключенні адаптера живлення.";
+"Deactivate on low battery" = "Вимикати при низькому заряді";
+"Threshold:" = "Поріг:";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "Автоматично вимикати Caffeine, коли рівень заряду батареї падає нижче порогу.";
 "Close" = "Закрити";
 
 /* Menu additions */
@@ -49,6 +59,14 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine запобігає переходу в режим сну";
 
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "Увімкнути глобальну комбінацію";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "Натисніть комбінацію клавіш нижче з будь-якого місця на вашому Mac, щоб увімкнути або вимкнути Caffeine.";
+"Shortcut:" = "Комбінація:";
+"Press a key combination…" = "Натисніть комбінацію клавіш…";
+"Reset" = "Скинути";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "Натисніть у полі та натисніть комбінацію клавіш. Вона працюватиме, навіть якщо Caffeine не є активним застосунком.";
+"Not set" = "Не встановлено";
 
 /* Menu items */
 

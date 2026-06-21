@@ -19,6 +19,8 @@
 "Check for Updates..." = "Nach Updates suchen...";
 "Settings..." = "Einstellungen...";
 "General" = "Allgemein";
+"Power" = "Energie";
+"Keyboard" = "Tastatur";
 "About" = "Über";
 "About Caffeine" = "Über Caffeine";
 "Deactivate Caffeine" = "Caffeine deaktivieren";
@@ -38,6 +40,14 @@
 "Prevents apps from becoming inactive and the screen saver from starting." = "Verhindert, dass Apps inaktiv werden und der Bildschirmschoner startet.";
 "Start at login" = "Beim Anmelden starten";
 "Automatically start Caffeine when you log in to your Mac." = "Caffeine automatisch starten, wenn Sie sich bei Ihrem Mac anmelden.";
+"Allow display to sleep" = "Bildschirm schlafen lassen";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "Lässt den Bildschirm nach seinem normalen Zeitplan schlafen, während der Mac wach bleibt.";
+"Activate when power adapter is connected" = "Aktivieren, wenn das Netzteil angeschlossen ist";
+"Deactivate when power adapter is disconnected" = "Deaktivieren, wenn das Netzteil getrennt wird";
+"Automatically react when connecting or disconnecting the power adapter." = "Automatisch reagieren, wenn das Netzteil angeschlossen oder getrennt wird.";
+"Deactivate on low battery" = "Bei niedrigem Akku deaktivieren";
+"Threshold:" = "Schwellenwert:";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "Caffeine automatisch deaktivieren, wenn der Akkustand unter den Schwellenwert fällt.";
 "Close" = "Schließen";
 
 /* Menu additions */
@@ -49,6 +59,14 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine verhindert den Ruhezustand";
 
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "Globale Umschalttaste aktivieren";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "Drücken Sie das untenstehende Tastenkürzel von überall auf Ihrem Mac, um Caffeine ein- oder auszuschalten.";
+"Shortcut:" = "Tastenkürzel:";
+"Press a key combination…" = "Tastenkürzel drücken…";
+"Reset" = "Zurücksetzen";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "Klicken Sie in das Feld und drücken Sie ein Tastenkürzel. Es funktioniert auch, wenn Caffeine nicht die aktive App ist.";
+"Not set" = "Nicht festgelegt";
 
 /* Menu items */
 

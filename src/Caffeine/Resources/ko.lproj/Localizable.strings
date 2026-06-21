@@ -19,6 +19,8 @@
 "Check for Updates..." = "업데이트 확인...";
 "Settings..." = "설정...";
 "General" = "일반";
+"Power" = "전원";
+"Keyboard" = "키보드";
 "About" = "정보";
 "About Caffeine" = "Caffeine 정보";
 "Deactivate Caffeine" = "Caffeine 비활성화";
@@ -38,6 +40,14 @@
 "Prevents apps from becoming inactive and the screen saver from starting." = "앱이 비활성 상태가 되거나 화면 보호기가 시작되는 것을 방지합니다.";
 "Start at login" = "로그인 시 시작";
 "Automatically start Caffeine when you log in to your Mac." = "Mac에 로그인할 때 Caffeine를 자동으로 시작합니다.";
+"Allow display to sleep" = "디스플레이 잠자기 허용";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "Mac은 깨어 있는 상태로 두면서 디스플레이는 평소 일정에 따라 잠자기로 전환되도록 합니다.";
+"Activate when power adapter is connected" = "전원 어댑터 연결 시 활성화";
+"Deactivate when power adapter is disconnected" = "전원 어댑터 연결 해제 시 비활성화";
+"Automatically react when connecting or disconnecting the power adapter." = "전원 어댑터를 연결하거나 해제할 때 자동으로 반응합니다.";
+"Deactivate on low battery" = "배터리 부족 시 비활성화";
+"Threshold:" = "임계값:";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "배터리 수준이 임계값 아래로 떨어지면 Caffeine를 자동으로 비활성화합니다.";
 "Close" = "닫기";
 
 /* Menu additions */
@@ -48,6 +58,15 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine이 잠자기를 방지합니다";
+
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "전역 단축키 사용";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "Mac의 어디서나 아래 단축키를 눌러 Caffeine를 켜거나 끄세요.";
+"Shortcut:" = "단축키:";
+"Press a key combination…" = "키 조합을 누르세요…";
+"Reset" = "재설정";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "필드를 클릭하고 키 조합을 누르세요. Caffeine이 활성 앱이 아닐 때도 작동합니다.";
+"Not set" = "설정 안 됨";
 
 /* Menu items */
 

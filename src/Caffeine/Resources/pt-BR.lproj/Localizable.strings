@@ -19,6 +19,8 @@
 "Check for Updates..." = "Procurar atualizações...";
 "Settings..." = "Ajustes...";
 "General" = "Geral";
+"Power" = "Energia";
+"Keyboard" = "Teclado";
 "About" = "Sobre";
 "About Caffeine" = "Sobre o Caffeine";
 "Deactivate Caffeine" = "Desativar o Caffeine";
@@ -38,6 +40,14 @@
 "Prevents apps from becoming inactive and the screen saver from starting." = "Impede que os apps fiquem inativos e que a proteção de tela seja iniciada.";
 "Start at login" = "Iniciar ao fazer login";
 "Automatically start Caffeine when you log in to your Mac." = "Inicia o Caffeine automaticamente quando você faz login no seu Mac.";
+"Allow display to sleep" = "Permitir que a tela entre em repouso";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "Permite que a tela entre em repouso no horário normal enquanto o Mac permanece ativo.";
+"Activate when power adapter is connected" = "Ativar quando o adaptador de energia é conectado";
+"Deactivate when power adapter is disconnected" = "Desativar quando o adaptador de energia é desconectado";
+"Automatically react when connecting or disconnecting the power adapter." = "Reage automaticamente ao conectar ou desconectar o adaptador de energia.";
+"Deactivate on low battery" = "Desativar com bateria baixa";
+"Threshold:" = "Limite:";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "Desativar o Caffeine automaticamente quando o nível da bateria cair abaixo do limite.";
 "Close" = "Fechar";
 
 /* Menu additions */
@@ -48,6 +58,15 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "O Caffeine impede o repouso";
+
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "Ativar atalho global";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "Pressione o atalho abaixo em qualquer lugar do seu Mac para ativar ou desativar o Caffeine.";
+"Shortcut:" = "Atalho:";
+"Press a key combination…" = "Pressione uma combinação de teclas…";
+"Reset" = "Redefinir";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "Clique no campo e pressione uma combinação de teclas. O atalho funcionará mesmo quando o Caffeine não for o app ativo.";
+"Not set" = "Não definido";
 
 /* Menu items */
 

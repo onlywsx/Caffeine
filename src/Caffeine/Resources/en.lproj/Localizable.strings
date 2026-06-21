@@ -19,6 +19,8 @@
 "Check for Updates..." = "Check for Updates...";
 "Settings..." = "Settings...";
 "General" = "General";
+"Power" = "Power";
+"Keyboard" = "Keyboard";
 "About" = "About";
 "About Caffeine" = "About Caffeine";
 "Deactivate Caffeine" = "Deactivate Caffeine";
@@ -38,7 +40,24 @@
 "Prevents apps from becoming inactive and the screen saver from starting." = "Prevents apps from becoming inactive and the screen saver from starting.";
 "Start at login" = "Start at login";
 "Automatically start Caffeine when you log in to your Mac." = "Automatically start Caffeine when you log in to your Mac.";
+"Allow display to sleep" = "Allow display to sleep";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "Lets the display sleep on its normal schedule while keeping the Mac awake.";
+"Activate when power adapter is connected" = "Activate when power adapter is connected";
+"Deactivate when power adapter is disconnected" = "Deactivate when power adapter is disconnected";
+"Automatically react when connecting or disconnecting the power adapter." = "Automatically react when connecting or disconnecting the power adapter.";
+"Deactivate on low battery" = "Deactivate on low battery";
+"Threshold:" = "Threshold:";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "Automatically deactivate Caffeine when the battery level drops below the threshold.";
 "Close" = "Close";
+
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "Enable global toggle shortcut";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off.";
+"Shortcut:" = "Shortcut:";
+"Press a key combination…" = "Press a key combination…";
+"Reset" = "Reset";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app.";
+"Not set" = "Not set";
 
 /* Menu additions */
 "Activate for" = "Activate for";

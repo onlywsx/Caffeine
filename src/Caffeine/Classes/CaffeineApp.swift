@@ -49,6 +49,26 @@ struct CaffeineApp: App {
                 }
 
                 Tab(
+                    String(localized: "Power"),
+                    systemImage: "bolt"
+                ) {
+                    PowerSettingsView(
+                        viewModel: self.viewModel,
+                        settings: self.settings
+                    )
+                }
+
+                Tab(
+                    String(localized: "Keyboard"),
+                    systemImage: "keyboard"
+                ) {
+                    KeyboardSettingsView(
+                        viewModel: self.viewModel,
+                        settings: self.settings
+                    )
+                }
+
+                Tab(
                     String(localized: "About"),
                     systemImage: "info.circle"
                 ) {
@@ -56,11 +76,11 @@ struct CaffeineApp: App {
                 }
             }
             // .focusable(false)
-            .frame(minWidth: 440, minHeight: 360)
+            .frame(minWidth: 440, minHeight: 400)
             .task {
                 await self.loginItem.refresh()
             }
         }
-        .defaultSize(width: 440, height: 360)
+        .defaultSize(width: 440, height: 400)
     }
 }

@@ -5,12 +5,9 @@
 
 import SwiftUI
 
-/// "General" tab of the Settings window. Bound to the shared
-/// `SettingsModel`; persistence is triggered via `.onChange` for the
-/// simple toggles and inline in the binding's `set` closure for the
-/// `Keep apps active` toggle (which has a side effect on
-/// `CaffeineViewModel`) and the `Start at login` toggle (which calls
-/// `LoginItemService`).
+/// "General" tab of the Settings window. Contains core behaviour
+/// preferences (duration, launch, login, activity). Power-related
+/// settings live in `PowerSettingsView`.
 struct GeneralSettingsView: View {
     @Bindable var viewModel: CaffeineViewModel
     @Bindable var settings: SettingsModel
