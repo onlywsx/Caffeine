@@ -7,6 +7,7 @@
 
 import ApplicationServices
 import Combine
+import DZFoundation
 import SwiftUI
 
 /// Main view model for the Caffeine application
@@ -32,15 +33,42 @@ final class CaffeineViewModel {
     @ObservationIgnored
     private var cancellables = Set<AnyCancellable>()
 
+    @ObservationIgnored
+    private var powerMonitor: PowerSourceMonitor?
+
+    @ObservationIgnored
+    private let hotkeyService = HotkeyService()
+
+    @ObservationIgnored
+    private let sleepPreventer: SleepPreventionManager
+
+    @ObservationIgnored
+    private let activitySimulator: ActivitySimulator
+
+    @ObservationIgnored
+    private var isUserSessionActive = true
+
     // MARK: - Initialization
 
-    init(settings: SettingsModel? = nil) {
+    init(
+        settings: SettingsModel? = nil,
+        sleepPreventer: SleepPreventionManager? = nil,
+        activitySimulator: ActivitySimulator? = nil
+    ) {
         // Explicitly ensure we start inactive
         self.isActive = false
         self.timeRemaining = nil
         self.settings = settings ?? SettingsModel()
 
+        // Lazy defaults: these `@MainActor` types cannot be
+        // constructed from a non-isolated default-argument
+        // context, so the init creates them itself.
+        self.sleepPreventer = sleepPreventer ?? SleepPreventionManager()
+        self.activitySimulator = activitySimulator ?? ActivitySimulator()
+
         self.setupObservers()
+        self.setupPowerMonitor()
+        self.setupHotkey()
 
         // Check if we should activate at launch
         if self.settings.activateAtLaunch {
@@ -112,10 +140,12 @@ final class CaffeineViewModel {
         }
 
         self.isActive = true
-        SleepPreventionManager.shared.preventSleep()
+        self.sleepPreventer.preventSleep(
+            allowDisplaySleep: self.settings.allowDisplaySleep
+        )
 
         if self.settings.keepAppsActive {
-            ActivitySimulator.shared.startMonitoring()
+            self.activitySimulator.startMonitoring()
         }
     }
 
@@ -124,8 +154,8 @@ final class CaffeineViewModel {
         self.cancelTimers()
         self.timeRemaining = nil
         self.isActive = false
-        SleepPreventionManager.shared.allowSleep()
-        ActivitySimulator.shared.stopMonitoring()
+        self.sleepPreventer.allowSleep()
+        self.activitySimulator.stopMonitoring()
     }
 
     /// Updates activity simulation based on preference. Also keeps the
@@ -139,13 +169,117 @@ final class CaffeineViewModel {
         if enabled {
             // Trigger the Accessibility permission prompt by posting a no-op event
             // This prompts for "Events" permission which CGEvent.post requires
-            ActivitySimulator.shared.requestPermission()
+            self.activitySimulator.requestAccessibilityPermission()
         }
 
         if enabled, self.isActive {
-            ActivitySimulator.shared.startMonitoring()
+            self.activitySimulator.startMonitoring()
         } else {
-            ActivitySimulator.shared.stopMonitoring()
+            self.activitySimulator.stopMonitoring()
+        }
+    }
+
+    /// Updates the "allow display to sleep" preference. When active,
+    /// re-applies the sleep assertion with the new flag so the change
+    /// takes effect immediately rather than waiting for the next
+    /// 10-second refresh tick.
+    func updateAllowDisplaySleep(enabled: Bool) {
+        if self.settings.allowDisplaySleep != enabled {
+            self.settings.allowDisplaySleep = enabled
+            self.settings.persist(PreferenceKeys.allowDisplaySleep)
+        }
+
+        if self.isActive {
+            self.sleepPreventer.preventSleep(
+                allowDisplaySleep: self.settings.allowDisplaySleep
+            )
+        }
+    }
+
+    /// Updates the "activate on power connect" preference. Persists
+    /// the change; no immediate side-effect is needed — the monitor
+    /// callback will read the new value on the next power event.
+    func updateActivateOnPowerConnect(enabled: Bool) {
+        if self.settings.activateOnPowerConnect != enabled {
+            self.settings.activateOnPowerConnect = enabled
+            self.settings.persist(PreferenceKeys.activateOnPowerConnect)
+        }
+        self.ensurePowerMonitorRunning()
+    }
+
+    /// Updates the "deactivate on power disconnect" preference.
+    /// Persists the change; no immediate side-effect is needed.
+    func updateDeactivateOnPowerDisconnect(enabled: Bool) {
+        if self.settings.deactivateOnPowerDisconnect != enabled {
+            self.settings.deactivateOnPowerDisconnect = enabled
+            self.settings.persist(PreferenceKeys.deactivateOnPowerDisconnect)
+        }
+        self.ensurePowerMonitorRunning()
+    }
+
+    /// Updates the "deactivate on low battery" preference.
+    /// Persists the change and ensures the power monitor is running.
+    func updateDeactivateOnLowBattery(enabled: Bool) {
+        if self.settings.deactivateOnLowBattery != enabled {
+            self.settings.deactivateOnLowBattery = enabled
+            self.settings.persist(PreferenceKeys.deactivateOnLowBattery)
+        }
+        self.ensurePowerMonitorRunning()
+    }
+
+    /// Updates the global toggle hotkey enabled flag. Persists
+    /// the change and (re-)registers the hotkey with the
+    /// underlying `HotkeyService`.
+    func updateHotkeyEnabled(enabled: Bool) {
+        if self.settings.hotkeyEnabled != enabled {
+            self.settings.hotkeyEnabled = enabled
+            self.settings.persist(PreferenceKeys.hotkeyEnabled)
+        }
+        self.applyHotkey()
+    }
+
+    /// Updates the global toggle hotkey key code and/or
+    /// modifier mask. Persists both values and (re-)registers
+    /// the hotkey with the underlying `HotkeyService`.
+    func updateHotkey(keyCode: UInt32, modifiers: UInt32) {
+        if self.settings.hotkeyKeyCode != keyCode {
+            self.settings.hotkeyKeyCode = keyCode
+            self.settings.persist(PreferenceKeys.hotkeyKeyCode)
+        }
+        if self.settings.hotkeyModifiers != modifiers {
+            self.settings.hotkeyModifiers = modifiers
+            self.settings.persist(PreferenceKeys.hotkeyModifiers)
+        }
+        self.applyHotkey()
+    }
+
+    /// Returns the currently configured hotkey, honouring
+    /// `hotkeyEnabled`. The settings view binds to this.
+    func currentHotkey() -> Hotkey {
+        Hotkey(
+            keyCode: self.settings.hotkeyKeyCode,
+            modifiers: self.settings.hotkeyModifiers
+        )
+    }
+
+    /// Updates the low battery threshold percentage. Persists the
+    /// change and forwards the new value to the power monitor. If
+    /// the battery is currently below the new threshold and Caffeine
+    /// is active, deactivates immediately.
+    func updateLowBatteryThreshold(value: Int) {
+        if self.settings.lowBatteryThreshold != value {
+            self.settings.lowBatteryThreshold = value
+            self.settings.persist(PreferenceKeys.lowBatteryThreshold)
+        }
+        self.powerMonitor?.lowBatteryThreshold = value
+        // Immediate check: if the battery is already below the new
+        // threshold, deactivate now.
+        if
+            self.isActive, self.settings.deactivateOnLowBattery,
+            let level = self.powerMonitor?.currentBatteryLevel,
+            level < value
+        {
+            self.deactivate()
         }
     }
 
@@ -204,6 +338,106 @@ final class CaffeineViewModel {
                 }
             }
             .store(in: &self.cancellables)
+
+        // Fast user switching / screen lock. While the session
+        // is inactive, the sleep-prevention assertion leaks
+        // resources if we keep refreshing — release it on
+        // resign and re-establish on resume.
+        NSWorkspace.shared.notificationCenter.publisher(
+            for: NSWorkspace.sessionDidResignActiveNotification
+        )
+        .sink { [weak self] _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.isUserSessionActive = false
+                if self.isActive {
+                    self.sleepPreventer.allowSleep()
+                }
+            }
+        }
+        .store(in: &self.cancellables)
+
+        NSWorkspace.shared.notificationCenter.publisher(
+            for: NSWorkspace.sessionDidBecomeActiveNotification
+        )
+        .sink { [weak self] _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.isUserSessionActive = true
+                if self.isActive {
+                    self.sleepPreventer.preventSleep(
+                        allowDisplaySleep: self.settings.allowDisplaySleep
+                    )
+                }
+            }
+        }
+        .store(in: &self.cancellables)
+    }
+
+    private func setupPowerMonitor() {
+        self.ensurePowerMonitorRunning()
+    }
+
+    /// Installs the global hotkey trigger. The closure is
+    /// `[weak self]` so the service never retains the view
+    /// model past deinit.
+    private func setupHotkey() {
+        self.hotkeyService.install { [weak self] in
+            self?.toggleActive()
+        }
+        self.applyHotkey()
+    }
+
+    /// Pushes the current `SettingsModel` hotkey state to the
+    /// underlying `HotkeyService`.
+    private func applyHotkey() {
+        let hotkey = Hotkey(
+            keyCode: self.settings.hotkeyKeyCode,
+            modifiers: self.settings.hotkeyModifiers
+        )
+        self.hotkeyService.setEnabled(self.settings.hotkeyEnabled, hotkey: hotkey)
+    }
+
+    /// Lazily creates the `PowerSourceMonitor` if any power/battery
+    /// preference is enabled and the monitor doesn't already exist.
+    /// Does nothing if the monitor is already running or no relevant
+    /// preference is enabled.
+    private func ensurePowerMonitorRunning() {
+        guard self.powerMonitor == nil else {
+            // Monitor already running — just sync the threshold in
+            // case the setting changed while it was already up.
+            self.powerMonitor?.lowBatteryThreshold =
+                self.settings.lowBatteryThreshold
+            return
+        }
+        guard
+            self.settings.activateOnPowerConnect
+            || self.settings.deactivateOnPowerDisconnect
+            || self.settings.deactivateOnLowBattery else
+        {
+            return
+        }
+
+        self.powerMonitor = PowerSourceMonitor()
+        self.powerMonitor?.lowBatteryThreshold =
+            self.settings.lowBatteryThreshold
+
+        self.powerMonitor?.onACPowerChanged = { [weak self] isOnAC in
+            guard let self else { return }
+            if isOnAC, self.settings.activateOnPowerConnect {
+                self.activate()
+            } else if !isOnAC, self.settings.deactivateOnPowerDisconnect {
+                self.deactivate()
+            }
+        }
+
+        self.powerMonitor?.onBatteryBelowThreshold = { [weak self] _ in
+            guard let self, self.settings.deactivateOnLowBattery else {
+                return
+            }
+            DZLog("CaffeineViewModel: battery below threshold, deactivating")
+            self.deactivate()
+        }
     }
 
     private func cancelTimers() {
