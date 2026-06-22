@@ -9,27 +9,88 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Settings window now has a two-tab layout: **General** (existing
-  preferences) and **About** (app version, description, GitHub
-  link, Check for Updates).
+- Settings window now has a four-tab layout: **General** (core
+  behaviour preferences), **Power** (display sleep, power adapter,
+  and battery preferences), **Keyboard** (global toggle shortcut),
+  and **About** (app version, description, GitHub link,
+  Check for Updates).
+- Global toggle shortcut in Settings → Keyboard. By default the
+  shortcut is `⌘⇧C` (Command+Shift+C); the user can record any
+  key combination and disable/enable the shortcut from the
+  Keyboard tab. The shortcut is registered via Carbon's
+  `RegisterEventHotKey` API so it works system-wide, even when
+  Caffeine is not the frontmost app, and does not require
+  Accessibility permission.
 - "Check for Updates" moved from the menu bar item to the About tab.
+- "Start at login" preference in Settings → General. When enabled,
+  Caffeine registers itself with `SMAppService.mainApp` so it
+  launches automatically on user login. Default is off.
+- "Allow display to sleep" preference in Settings → Power. When
+  enabled (the default), Caffeine holds only the system idle
+  assertion so the display can sleep on its normal schedule while
+  the Mac stays awake. When disabled, Caffeine holds the stricter
+  display assertion that also keeps the display awake.
+- "Activate when power adapter is connected" preference in
+  Settings → Power. When enabled, Caffeine automatically activates
+  when a power adapter is connected. Default is off.
+- "Deactivate when power adapter is disconnected" preference in
+  Settings → Power. When enabled, Caffeine automatically
+  deactivates when the power adapter is disconnected. Default is off.
+- "Deactivate on low battery" preference in Settings → Power with
+  a configurable threshold slider (5–50 %, default 20 %). When
+  enabled, Caffeine automatically deactivates when the internal
+  battery drops below the threshold. Desktop Macs without a battery
+  are unaffected.
+
+### Fixed
+
+- "Allow display to sleep", "Activate when power adapter is
+  connected", "Deactivate when power adapter is disconnected",
+  "Deactivate on low battery" toggles and the low-battery threshold
+  slider could not be toggled/adjusted. Their custom `Binding`
+  closures called view-model methods without first writing the new
+  value back to `SettingsModel`, so the getter always returned the
+  stale value and SwiftUI reverted the control.
+- "Default duration" preference in Settings → General now takes
+  effect within the current session, not only on the next app
+  launch. Previously, `CaffeineApp` and `CaffeineViewModel` each
+  constructed their own `SettingsModel`, so a Picker change in
+  the Settings window updated the app's instance while the view
+  model read the stale copy. `CaffeineViewModel` now receives the
+  shared instance via injection, and the parameter is non-optional
+  to prevent the same mistake from recurring.
 
 ### Removed
 
 - First-launch pop-up of the Settings window (and its associated
   "Show this message when starting Caffeine" preference). Users
   open Settings themselves from the menu bar via
-  `Preferences…`.
+  `Settings…`.
+- Suppression of the keyboard focus ring on the Settings tab bar
+  and on form controls; SwiftUI's default focus indicator is now
+  shown.
 
-### Fixed
+### Changed
 
-- Settings tab bar now follows the system light/dark theme.
-  Switched from the `.tabItem`-based `TabView` (which on macOS
-  14.6 cached its appearance at window creation and only
-  refreshed on relaunch) to the macOS 15+ `Tab` initializer,
-  which re-evaluates colors when the system theme changes.
-- Minimum macOS version raised to 15.6 to enable the modern
-  `Tab` API.
+- Menu bar item label renamed from `Preferences…` to `Settings…`
+  in every supported language. Updated across all 14
+  `Localizable.strings` files (en, zh-Hans, de, ja, ko, es, fr,
+  it, nl, pt, pt-BR, ru, uk) and the source string in
+  `MenuBarContentView.swift`.
+- Renamed the view files in `Classes/Views/` to follow the
+  `*View` convention: `GeneralSettings` / `AboutSettings` /
+  `MenuBarContent` are now `GeneralSettingsView` /
+  `AboutSettingsView` / `MenuBarContentView`.
+- Menu bar `inactive` icon is now a coffee bean (with a central
+  groove) instead of an empty cup, so the two states are clearly
+  different shapes rather than "full cup vs empty cup" variants.
+- Settings window minimum width and default size widened from
+  380pt to 440pt so toggles and labels no longer hug the edge.
+- Settings window now uses the native `Settings { TabView { Tab { ... } } }` API (macOS 14+), removing the custom tab buttons and the `SettingsTabButtonStyle` workaround. Tab theming now follows the system appearance automatically.
+- All user preferences are now read and written through a single `SettingsModel` (`@Observable`), replacing scattered `UserDefaults.standard.bool(forKey:)` calls in `CaffeineViewModel` and per-view `@AppStorage` bindings.
+- `AppDelegate` no longer observes `NSApp.effectiveAppearance` to force-update window appearance; system default behaviour is relied upon instead.
+- The "About" tab now uses `Form` with `.formStyle(.grouped)` for visual consistency with the "General" tab.
+- Shared state (`SettingsModel`, `CaffeineViewModel`, `LoginItemService`) is now provided to views via SwiftUI's `@Environment` mechanism instead of constructor parameters. `CaffeineApp` attaches each value at the scene level using `.environment(...)`, and the views read them with `@Environment(Type.self)` (for `@Observable` models) or `@Environment(\.loginItem)` (for the service, via the new `@Entry`). This eliminates the last places where a default-parameter constructor could silently create a divergent instance, and matches Apple's recommended pattern for `@Observable` types.
 
 ## [1.6.5] - 2026-06-16
 

@@ -17,23 +17,37 @@
 
 /* Menu items */
 "Check for Updates..." = "Op updates controleren...";
-"Preferences..." = "Voorkeuren...";
+"Settings..." = "Instellingen...";
+"General" = "Algemeen";
+"Power" = "Energie";
+"Keyboard" = "Toetsenbord";
+"About" = "Over";
 "About Caffeine" = "Over Caffeine";
 "Deactivate Caffeine" = "Caffeine uitschakelen";
 "Quit" = "Stop";
 
 "Activate Caffeine" = "Caffeine inschakelen";
 
-/* Preferences instructions */
+/* Settings instructions */
 "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine draait nu. Je vindt het pictogram aan de rechterkant van je menubalk. Klik om automatisch sluimeren uit te schakelen, klik nogmaals om het weer in te schakelen.";
 "Click the menu bar icon to open the Caffeine menu." = "Klik op het menubalkpictogram om het Caffeine-menu te openen.";
 
-/* Preferences labels */
-"Default duration:" = "Standaardduur:";
+/* Settings labels */
+"Default duration" = "Standaardduur";
 "Activate when starting Caffeine" = "Caffeine bij starten inschakelen";
 "Deactivate when device goes to sleep manually" = "Uitschakelen wanneer het apparaat handmatig in sluimerstand gaat";
 "Keep apps active" = "Apps actief houden";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Voorkomt dat apps inactief worden en dat de schermbeveiliging start.";
+"Start at login" = "Starten bij aanmelden";
+"Automatically start Caffeine when you log in to your Mac." = "Start Caffeine automatisch wanneer je je aanmeldt bij je Mac.";
+"Allow display to sleep" = "Scherm laten sluimeren";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "Laat het scherm volgens het normale schema sluimeren terwijl de Mac wakker blijft.";
+"Activate when power adapter is connected" = "Activeren wanneer voedingsadapter is aangesloten";
+"Deactivate when power adapter is disconnected" = "Deactiveren wanneer voedingsadapter wordt losgekoppeld";
+"Automatically react when connecting or disconnecting the power adapter." = "Reageert automatisch bij het aansluiten of loskoppelen van de voedingsadapter.";
+"Deactivate on low battery" = "Deactiveren bij lage batterij";
+"Threshold:" = "Drempel:";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "Caffeine automatisch deactiveren wanneer het batterijniveau onder de drempel daalt.";
 "Close" = "Sluiten";
 
 /* Menu additions */
@@ -44,6 +58,15 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine voorkomt sluimerstand";
+
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "Globale schakelsneltoets inschakelen";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "Druk overal op je Mac op de onderstaande sneltoets om Caffeine in of uit te schakelen.";
+"Shortcut:" = "Sneltoets:";
+"Press a key combination…" = "Druk op een toetscombinatie…";
+"Reset" = "Herstellen";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "Klik in het veld en druk op een toetscombinatie. De sneltoets werkt ook wanneer Caffeine niet de actieve app is.";
+"Not set" = "Niet ingesteld";
 
 /* Menu items */
 

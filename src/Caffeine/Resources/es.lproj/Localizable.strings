@@ -17,23 +17,37 @@
 
 /* Menu items */
 "Check for Updates..." = "Buscar actualizaciones...";
-"Preferences..." = "Preferencias...";
+"Settings..." = "Ajustes...";
+"General" = "General";
+"Power" = "Energía";
+"Keyboard" = "Teclado";
+"About" = "Acerca de";
 "About Caffeine" = "Acerca de Caffeine";
 "Deactivate Caffeine" = "Desactivar Caffeine";
 "Quit" = "Salir";
 
 "Activate Caffeine" = "Activar Caffeine";
 
-/* Preferences instructions */
+/* Settings instructions */
 "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine ya se está ejecutando. Puedes encontrar su icono en el lado derecho de la barra de menús. Haz clic para desactivar el reposo automático; haz clic de nuevo para volver a activarlo.";
 "Click the menu bar icon to open the Caffeine menu." = "Haz clic en el icono de la barra de menús para abrir el menú de Caffeine.";
 
-/* Preferences labels */
-"Default duration:" = "Duración predeterminada:";
+/* Settings labels */
+"Default duration" = "Duración predeterminada";
 "Activate when starting Caffeine" = "Activar al iniciar Caffeine";
 "Deactivate when device goes to sleep manually" = "Desactivar cuando el dispositivo entra en reposo manualmente";
 "Keep apps active" = "Mantener apps activas";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Evita que las apps se vuelvan inactivas y que se inicie el salvapantallas.";
+"Start at login" = "Iniciar al arrancar";
+"Automatically start Caffeine when you log in to your Mac." = "Inicia Caffeine automáticamente al iniciar sesión en tu Mac.";
+"Allow display to sleep" = "Permitir que la pantalla se duerma";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "Permite que la pantalla se duerma según su horario normal mientras mantiene el Mac despierto.";
+"Activate when power adapter is connected" = "Activar al conectar el cargador";
+"Deactivate when power adapter is disconnected" = "Desactivar al desconectar el cargador";
+"Automatically react when connecting or disconnecting the power adapter." = "Reacciona automáticamente al conectar o desconectar el cargador.";
+"Deactivate on low battery" = "Desactivar con batería baja";
+"Threshold:" = "Umbral:";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "Desactivar Caffeine automáticamente cuando el nivel de batería baje del umbral.";
 "Close" = "Cerrar";
 
 /* Menu additions */
@@ -45,6 +59,14 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine impide el reposo";
 
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "Activar atajo global";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "Pulsa el atajo de abajo desde cualquier lugar de tu Mac para activar o desactivar Caffeine.";
+"Shortcut:" = "Atajo:";
+"Press a key combination…" = "Pulsa una combinación de teclas…";
+"Reset" = "Restablecer";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "Haz clic en el campo y pulsa una combinación de teclas. El atajo funcionará incluso cuando Caffeine no sea la app activa.";
+"Not set" = "Sin definir";
 
 /* Menu items */
 

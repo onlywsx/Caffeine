@@ -17,23 +17,37 @@
 
 /* Menu items */
 "Check for Updates..." = "アップデートを確認...";
-"Preferences..." = "環境設定...";
+"Settings..." = "設定...";
+"General" = "一般";
+"Power" = "電源";
+"Keyboard" = "キーボード";
+"About" = "情報";
 "About Caffeine" = "Caffeineについて";
 "Deactivate Caffeine" = "Caffeineを無効にする";
 "Quit" = "終了";
 
 "Activate Caffeine" = "Caffeineを有効にする";
 
-/* Preferences instructions */
+/* Settings instructions */
 "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine が起動しました。メニューバー右側のアイコンをクリックすると自動スリープが無効になり、もう一度クリックすると再び有効になります。";
 "Click the menu bar icon to open the Caffeine menu." = "メニューバーのアイコンをクリックして Caffeine メニューを開きます。";
 
-/* Preferences labels */
-"Default duration:" = "デフォルトの時間:";
+/* Settings labels */
+"Default duration" = "デフォルトの時間";
 "Activate when starting Caffeine" = "Caffeine 起動時に有効化";
 "Deactivate when device goes to sleep manually" = "手動でスリープしたときに無効化";
 "Keep apps active" = "アプリをアクティブに保つ";
 "Prevents apps from becoming inactive and the screen saver from starting." = "アプリが非アクティブになるのを防ぎ、スクリーンセーバーの起動を防止します。";
+"Start at login" = "ログイン時に起動";
+"Automatically start Caffeine when you log in to your Mac." = "Mac にログインした時に Caffeine を自動的に起動します。";
+"Allow display to sleep" = "ディスプレイのスリープを許可";
+"Lets the display sleep on its normal schedule while keeping the Mac awake." = "Mac をスリープさせずに、ディスプレイを通常のスケジュールでスリープさせます。";
+"Activate when power adapter is connected" = "電源アダプター接続時に有効化";
+"Deactivate when power adapter is disconnected" = "電源アダプター切断時に無効化";
+"Automatically react when connecting or disconnecting the power adapter." = "電源アダプターの接続または切断時に自動的に反応します。";
+"Deactivate on low battery" = "バッテリー残量低下時に無効化";
+"Threshold:" = "しきい値：";
+"Automatically deactivate Caffeine when the battery level drops below the threshold." = "バッテリー残量がしきい値を下回った時に Caffeine を自動的に無効化します。";
 "Close" = "閉じる";
 
 /* Menu additions */
@@ -45,6 +59,14 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine がスリープを防ぎます";
 
+/* Keyboard shortcuts */
+"Enable global toggle shortcut" = "グローバル切替ショートカットを有効にする";
+"Press the shortcut below from anywhere on your Mac to toggle Caffeine on or off." = "Mac のどこからでも下のショートカットを押すと、Caffeine のオン/オフを切り替えられます。";
+"Shortcut:" = "ショートカット：";
+"Press a key combination…" = "キーの組み合わせを押してください…";
+"Reset" = "リセット";
+"Click the field and press a key combination. The shortcut will work even when Caffeine is not the active app." = "フィールドをクリックしてキーの組み合わせを押してください。Caffeine がアクティブでないときでも動作します。";
+"Not set" = "未設定";
 
 /* Menu items */
 
