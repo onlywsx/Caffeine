@@ -79,6 +79,7 @@ struct CaffeineApp: App {
             }
             // .focusable(false)
             .frame(minWidth: 440, minHeight: 400)
+            .environment(self.viewModel)
             .task {
                 await self.loginItem.refresh()
             }
