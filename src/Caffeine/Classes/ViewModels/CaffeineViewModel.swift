@@ -51,14 +51,14 @@ final class CaffeineViewModel {
     // MARK: - Initialization
 
     init(
-        settings: SettingsModel? = nil,
+        settings: SettingsModel,
         sleepPreventer: SleepPreventionManager? = nil,
         activitySimulator: ActivitySimulator? = nil
     ) {
         // Explicitly ensure we start inactive
         self.isActive = false
         self.timeRemaining = nil
-        self.settings = settings ?? SettingsModel()
+        self.settings = settings
 
         // Lazy defaults: these `@MainActor` types cannot be
         // constructed from a non-isolated default-argument

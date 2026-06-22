@@ -133,7 +133,7 @@ struct PowerSettingsView: View {
 
 #Preview {
     PowerSettingsView(
-        viewModel: CaffeineViewModel(),
+        viewModel: CaffeineViewModel(settings: SettingsModel()),
         settings: SettingsModel()
     )
     .environment(\.locale, .init(identifier: "en"))

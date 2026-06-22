@@ -11,8 +11,15 @@ import SwiftUI
 struct CaffeineApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
-    @State private var viewModel = CaffeineViewModel()
-    @State private var settings = SettingsModel()
+    @State private var settings: SettingsModel
+    @State private var viewModel: CaffeineViewModel
+
+    init() {
+        let settings = SettingsModel()
+        self._settings = State(initialValue: settings)
+        self._viewModel = State(initialValue: CaffeineViewModel(settings: settings))
+    }
+
     @State private var updater = UpdaterController()
     @State private var loginItem: any LoginItemService = LiveLoginItemService()
 

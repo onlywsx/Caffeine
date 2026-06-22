@@ -126,7 +126,7 @@ struct GeneralSettingsView: View {
 
 #Preview {
     GeneralSettingsView(
-        viewModel: CaffeineViewModel(),
+        viewModel: CaffeineViewModel(settings: SettingsModel()),
         settings: SettingsModel(),
         loginItem: FakeLoginItemService()
     )
