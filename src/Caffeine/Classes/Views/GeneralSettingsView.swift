@@ -23,7 +23,7 @@ struct GeneralSettingsView: View {
             Section {
                 Picker(
                     String(localized: "Default duration"),
-                    selection: self.$settings.defaultDuration
+                    selection: $settings.defaultDuration
                 ) {
                     Text(String(localized: "5 minutes")).tag(5)
                     Text(String(localized: "10 minutes")).tag(10)
@@ -40,11 +40,11 @@ struct GeneralSettingsView: View {
             Section {
                 Toggle(
                     String(localized: "Activate when starting Caffeine"),
-                    isOn: self.$settings.activateAtLaunch
+                    isOn: $settings.activateAtLaunch
                 )
                 Toggle(
                     String(localized: "Deactivate when device goes to sleep manually"),
-                    isOn: self.$settings.deactivateOnManualSleep
+                    isOn: $settings.deactivateOnManualSleep
                 )
             }
 
