@@ -10,10 +10,13 @@ import SwiftUI
 /// `SettingsModel`; persistence is triggered inline in each
 /// custom binding's `set` closure.
 struct PowerSettingsView: View {
-    @Bindable var viewModel: CaffeineViewModel
-    @Bindable var settings: SettingsModel
+    @Environment(CaffeineViewModel.self) private var viewModel: CaffeineViewModel
+    @Environment(SettingsModel.self) private var settings: SettingsModel
 
     var body: some View {
+        @Bindable var settings = self.settings
+        @Bindable var viewModel = self.viewModel
+
         Form {
             Section {
                 // Custom binding: side-effect on
@@ -132,9 +135,8 @@ struct PowerSettingsView: View {
 }
 
 #Preview {
-    PowerSettingsView(
-        viewModel: CaffeineViewModel(settings: SettingsModel()),
-        settings: SettingsModel()
-    )
-    .environment(\.locale, .init(identifier: "en"))
+    PowerSettingsView()
+        .environment(CaffeineViewModel(settings: SettingsModel()))
+        .environment(SettingsModel())
+        .environment(\.locale, .init(identifier: "en"))
 }
