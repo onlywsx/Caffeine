@@ -105,6 +105,7 @@ struct KeyboardSettingsView: View {
                 RoundedRectangle(cornerRadius: 5)
                     .strokeBorder(Color.secondary.opacity(0.4))
             )
+            .contentShape(RoundedRectangle(cornerRadius: 5))
         }
         .buttonStyle(.plain)
         .disabled(!self.settings.hotkeyEnabled)
