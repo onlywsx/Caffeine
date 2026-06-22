@@ -28,7 +28,8 @@ struct CaffeineApp: App {
         // `active` / `inactive` template image as the icon and
         // shows `MenuBarContentView` on left- or right-click.
         MenuBarExtra {
-            MenuBarContentView(viewModel: self.viewModel, updater: self.updater)
+            MenuBarContentView(updater: self.updater)
+                .environment(self.viewModel)
         } label: {
             Image(self.viewModel.isActive ? "active" : "inactive")
         }
@@ -48,31 +49,25 @@ struct CaffeineApp: App {
                     String(localized: "General"),
                     systemImage: "gearshape"
                 ) {
-                    GeneralSettingsView(
-                        viewModel: self.viewModel,
-                        settings: self.settings,
-                        loginItem: self.loginItem
-                    )
+                    GeneralSettingsView()
+                        .environment(self.settings)
+                        .environment(\.loginItem, self.loginItem)
                 }
 
                 Tab(
                     String(localized: "Power"),
                     systemImage: "bolt"
                 ) {
-                    PowerSettingsView(
-                        viewModel: self.viewModel,
-                        settings: self.settings
-                    )
+                    PowerSettingsView()
+                        .environment(self.settings)
                 }
 
                 Tab(
                     String(localized: "Keyboard"),
                     systemImage: "keyboard"
                 ) {
-                    KeyboardSettingsView(
-                        viewModel: self.viewModel,
-                        settings: self.settings
-                    )
+                    KeyboardSettingsView()
+                        .environment(self.settings)
                 }
 
                 Tab(
