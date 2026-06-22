@@ -207,6 +207,11 @@ struct KeyboardSettingsView: View {
         // Reset to the default ⌘⇧C. `updateHotkey` writes the
         // new value, persists it, and re-registers the service.
         self.viewModel.updateHotkey(keyCode: 8, modifiers: 0x0300)
+        // Also exit record mode if the user was mid-recording
+        // when they hit Reset — otherwise the field would
+        // continue to show "Press a key combination…" even
+        // though the binding has been restored.
+        self.cancelRecording()
     }
 
     /// Returns `true` for the Carbon virtual key codes that
