@@ -30,7 +30,11 @@ struct CaffeineApp: App {
             MenuBarContentView(updater: self.updater)
                 .environment(self.viewModel)
         } label: {
-            Image(self.viewModel.isActive ? "active" : "inactive")
+            if self.viewModel.isActive {
+                Image(systemName: "leaf.fill")
+            } else {
+                Image(systemName: "leaf")
+            }
         }
         .menuBarExtraStyle(.menu)
 

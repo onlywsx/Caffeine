@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - "Start at login" service is now a single concrete `LoginItemService` (`@MainActor`, `@Observable`) injected into `CaffeineViewModel` like the other services (`SleepPreventionManager`, `ActivitySimulator`). The `LoginItemService` protocol, `LiveLoginItemService`, `FakeLoginItemService`, and the `\.loginItem` environment key are gone. Previews construct `LoginItemService(inMemoryWith: .disabled)` and pass it via the view-model initializer; the runtime path queries `SMAppService.mainApp` on launch and on every `setEnabled(_:)` call.
+- Menu bar icons now use SF Symbols for both states. Active: `leaf.fill`. Inactive: `leaf`. The `active` and `inactive` asset images are no longer referenced by the app. SF Symbols are provided by Apple free of charge for use inside apps, including commercial and App Store distribution — no licence fee, no attribution required.
 
 ### Added
 
