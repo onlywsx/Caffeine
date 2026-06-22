@@ -37,79 +37,49 @@ enum LoginItemError: LocalizedError {
     }
 }
 
-/// Abstraction over the macOS login-item API so views never depend on
-/// `SMAppService` directly. The live implementation is
-/// `LiveLoginItemService`; the in-memory `FakeLoginItemService` is
-/// used in tests (and as a placeholder until a test target exists).
+/// Wraps `SMAppService.mainApp` so views never depend on
+/// `ServiceManagement` directly.
+///
+/// Use the parameterless `init()` in production — the service
+/// queries `SMAppService.mainApp` on `refresh()` and on every
+/// `setEnabled(_:)` call. Use `init(inMemoryWith:)` from
+/// SwiftUI Previews and any future unit tests to construct a
+/// deterministic instance that never touches the system.
 @MainActor
-protocol LoginItemService: AnyObject {
+@Observable
+final class LoginItemService {
     /// Last known system status. Initial value is `.unknown` until
-    /// `refresh()` completes at least once.
-    var status: LoginItemStatus { get }
+    /// `refresh()` completes at least once. In-memory instances
+    /// (created via `init(inMemoryWith:)`) start with the supplied
+    /// status and never call `refresh()` on their own.
+    private(set) var status: LoginItemStatus
+
+    /// `true` for instances created with `init(inMemoryWith:)`. The
+    /// flag short-circuits all `ServiceManagement` calls so Previews
+    /// don't trigger system side-effects.
+    private let isInMemory: Bool
+
+    /// Production initializer. Status starts at `.unknown` until
+    /// `refresh()` is awaited.
+    init() {
+        self.status = .unknown
+        self.isInMemory = false
+    }
+
+    /// In-memory initializer for SwiftUI Previews and tests. The
+    /// supplied status is treated as the source of truth; `refresh()`
+    /// is a no-op and `setEnabled(_:)` mutates `status` directly.
+    init(inMemoryWith status: LoginItemStatus) {
+        self.status = status
+        self.isInMemory = true
+    }
 
     /// Asks the system for the current login-item status and stores
-    /// it in `status`. Safe to call multiple times.
-    func refresh() async
-
-    /// Requests that the system enable or disable Caffeine as a
-    /// login item. On success, `status` reflects the new truth. On
-    /// failure, throws `LoginItemError` and `status` is unchanged.
-    func setEnabled(_ enabled: Bool) async throws
-}
-
-extension LoginItemService {
-    /// Convenience factory for the live, system-backed implementation.
-    static func live() -> any LoginItemService {
-        LiveLoginItemService()
-    }
-}
-
-/// In-memory `LoginItemService` for tests and for follow-up work that
-/// needs a deterministic service without invoking `SMAppService`.
-///
-/// The optional `nextError` closure, when set, causes the next call
-/// to `setEnabled(_:)` to throw the returned error and leaves `status`
-/// unchanged. It is consumed (cleared) after one invocation, matching
-/// the live behaviour where a failed register/unregister does not
-/// retroactively mutate state.
-@MainActor
-final class FakeLoginItemService: LoginItemService {
-    private(set) var status: LoginItemStatus = .disabled
-
-    private var nextError: (@Sendable () -> LoginItemError)?
-
-    init(initialStatus: LoginItemStatus = .disabled) {
-        self.status = initialStatus
-    }
-
-    /// Inject a one-shot error to be thrown by the next
-    /// `setEnabled(_:)` call. Pass `nil` to clear.
-    func setNextError(_ factory: (@Sendable () -> LoginItemError)?) {
-        self.nextError = factory
-    }
-
+    /// it in `status`. Safe to call multiple times. No-op for
+    /// in-memory instances.
     func refresh() async {
-        // No-op: status already reflects the latest truth.
-    }
-
-    func setEnabled(_ enabled: Bool) async throws {
-        if let factory = self.nextError {
-            self.nextError = nil
-            throw factory()
-        }
-        self.status = enabled ? .enabled : .disabled
-    }
-}
-
-/// Live `LoginItemService` backed by `SMAppService.mainApp`.
-@MainActor
-final class LiveLoginItemService: LoginItemService {
-    private let service = SMAppService.mainApp
-
-    private(set) var status: LoginItemStatus = .unknown
-
-    func refresh() async {
-        switch self.service.status {
+        guard !self.isInMemory else { return }
+        switch SMAppService.mainApp.status {
         case .enabled:
             self.status = .enabled
         case .requiresApproval:
@@ -121,12 +91,19 @@ final class LiveLoginItemService: LoginItemService {
         }
     }
 
+    /// Requests that the system enable or disable Caffeine as a
+    /// login item. On success, `status` reflects the new truth. On
+    /// failure, throws `LoginItemError` and `status` is unchanged.
     func setEnabled(_ enabled: Bool) async throws {
+        if self.isInMemory {
+            self.status = enabled ? .enabled : .disabled
+            return
+        }
         do {
             if enabled {
-                try await self.service.register()
+                try await SMAppService.mainApp.register()
             } else {
-                try await self.service.unregister()
+                try await SMAppService.mainApp.unregister()
             }
         } catch is CancellationError {
             throw LoginItemError.userCancelled

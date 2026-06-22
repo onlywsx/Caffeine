@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- "Start at login" service is now a single concrete `LoginItemService` (`@MainActor`, `@Observable`) injected into `CaffeineViewModel` like the other services (`SleepPreventionManager`, `ActivitySimulator`). The `LoginItemService` protocol, `LiveLoginItemService`, `FakeLoginItemService`, and the `\.loginItem` environment key are gone. Previews construct `LoginItemService(inMemoryWith: .disabled)` and pass it via the view-model initializer; the runtime path queries `SMAppService.mainApp` on launch and on every `setEnabled(_:)` call.
+
 ### Added
 
 - Settings window now has a four-tab layout: **General** (core

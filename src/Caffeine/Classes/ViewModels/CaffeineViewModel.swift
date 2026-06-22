@@ -19,6 +19,11 @@ final class CaffeineViewModel {
     var isActive = false
     var timeRemaining: TimeInterval?
 
+    /// One-line message shown under the "Start at login" toggle
+    /// when `LoginItemService.setEnabled(_:)` fails. `nil` while
+    /// the toggle is healthy.
+    private(set) var loginItemErrorMessage: String?
+
     // MARK: - Ignored (private) Properties
 
     @ObservationIgnored
@@ -46,6 +51,9 @@ final class CaffeineViewModel {
     private let activitySimulator: ActivitySimulator
 
     @ObservationIgnored
+    private let loginItem: LoginItemService
+
+    @ObservationIgnored
     private var isUserSessionActive = true
 
     // MARK: - Initialization
@@ -53,7 +61,8 @@ final class CaffeineViewModel {
     init(
         settings: SettingsModel,
         sleepPreventer: SleepPreventionManager? = nil,
-        activitySimulator: ActivitySimulator? = nil
+        activitySimulator: ActivitySimulator? = nil,
+        loginItem: LoginItemService? = nil
     ) {
         // Explicitly ensure we start inactive
         self.isActive = false
@@ -65,10 +74,16 @@ final class CaffeineViewModel {
         // context, so the init creates them itself.
         self.sleepPreventer = sleepPreventer ?? SleepPreventionManager()
         self.activitySimulator = activitySimulator ?? ActivitySimulator()
+        self.loginItem = loginItem ?? LoginItemService()
 
         self.setupObservers()
         self.setupPowerMonitor()
         self.setupHotkey()
+
+        // Sync the live login-item status with the system on launch
+        // so the "Start at login" toggle reflects reality before
+        // the user opens Settings.
+        Task { await self.loginItem.refresh() }
 
         // Check if we should activate at launch
         if self.settings.activateAtLaunch {
@@ -236,6 +251,21 @@ final class CaffeineViewModel {
             self.settings.persist(PreferenceKeys.hotkeyEnabled)
         }
         self.applyHotkey()
+    }
+
+    /// Applies the user's "Start at login" toggle change to the
+    /// underlying `LoginItemService`. On failure, reverts both
+    /// the in-memory setting and the persisted preference, and
+    /// surfaces a one-line error message under the toggle.
+    func applyLoginItemChange(_ enabled: Bool) async {
+        do {
+            try await self.loginItem.setEnabled(enabled)
+            self.loginItemErrorMessage = nil
+        } catch {
+            self.loginItemErrorMessage = error.localizedDescription
+            self.settings.startAtLogin.toggle()
+            self.settings.persist(PreferenceKeys.startAtLogin)
+        }
     }
 
     /// Updates the global toggle hotkey key code and/or

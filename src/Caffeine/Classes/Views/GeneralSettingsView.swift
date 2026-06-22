@@ -11,9 +11,6 @@ import SwiftUI
 struct GeneralSettingsView: View {
     @Environment(CaffeineViewModel.self) private var viewModel: CaffeineViewModel
     @Environment(SettingsModel.self) private var settings: SettingsModel
-    @Environment(\.loginItem) private var loginItem: any LoginItemService
-
-    @State private var loginItemErrorMessage: String?
 
     var body: some View {
         @Bindable var settings = self.settings
@@ -59,12 +56,12 @@ struct GeneralSettingsView: View {
                         set: { newValue in
                             self.settings.startAtLogin = newValue
                             self.settings.persist(PreferenceKeys.startAtLogin)
-                            Task { await self.applyLoginItemChange(newValue) }
+                            Task { await self.viewModel.applyLoginItemChange(newValue) }
                         }
                     )
                 )
 
-                if let message = self.loginItemErrorMessage {
+                if let message = self.viewModel.loginItemErrorMessage {
                     Text(message)
                         .font(.caption)
                         .foregroundStyle(.red)
@@ -110,28 +107,13 @@ struct GeneralSettingsView: View {
             self.settings.persist(PreferenceKeys.deactivateOnManualSleep)
         }
     }
-
-    /// Apply the user's toggle change to the underlying
-    /// `LoginItemService`. On failure, revert both the in-memory
-    /// setting and the persisted preference, and surface a one-line
-    /// error message under the toggle.
-    private func applyLoginItemChange(_ newValue: Bool) async {
-        do {
-            try await self.loginItem.setEnabled(newValue)
-            self.loginItemErrorMessage = nil
-        } catch {
-            self.settings.startAtLogin.toggle()
-            self.settings.persist(PreferenceKeys.startAtLogin)
-            self.loginItemErrorMessage = error.localizedDescription
-        }
-    }
 }
 
 #Preview {
     let settings = SettingsModel()
+    let loginItem = LoginItemService(inMemoryWith: .disabled)
     return GeneralSettingsView()
-        .environment(CaffeineViewModel(settings: settings))
+        .environment(CaffeineViewModel(settings: settings, loginItem: loginItem))
         .environment(settings)
-        .environment(\.loginItem, FakeLoginItemService())
         .environment(\.locale, .init(identifier: "en"))
 }
