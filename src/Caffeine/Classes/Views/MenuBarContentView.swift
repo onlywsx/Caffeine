@@ -17,7 +17,7 @@ import SwiftUI
 /// required a session-level `CGEventTap` and accessibility
 /// permission.
 struct MenuBarContentView: View {
-    @Bindable var viewModel: CaffeineViewModel
+    @Environment(CaffeineViewModel.self) private var viewModel: CaffeineViewModel
     let updater: UpdaterController
 
     @Environment(\.openSettings)
