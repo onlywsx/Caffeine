@@ -51,6 +51,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   closures called view-model methods without first writing the new
   value back to `SettingsModel`, so the getter always returned the
   stale value and SwiftUI reverted the control.
+- "Default duration" preference in Settings → General now takes
+  effect within the current session, not only on the next app
+  launch. Previously, `CaffeineApp` and `CaffeineViewModel` each
+  constructed their own `SettingsModel`, so a Picker change in
+  the Settings window updated the app's instance while the view
+  model read the stale copy. `CaffeineViewModel` now receives the
+  shared instance via injection, and the parameter is non-optional
+  to prevent the same mistake from recurring.
 
 ### Removed
 
