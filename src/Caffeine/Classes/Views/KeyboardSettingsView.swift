@@ -91,19 +91,20 @@ struct KeyboardSettingsView: View {
 
     private var recorderButton: some View {
         Button(action: self.toggleRecording) {
+            // The frame and padding live on the ZStack so that
+            // the hit-test region covers the entire rounded
+            // rectangle, not just the text content.
             ZStack {
-                // Reserve a stable width so the layout does not
-                // jump when entering/leaving record mode.
                 Text(self.recorderLabel)
                     .font(.system(.body, design: .monospaced))
-                    .frame(minWidth: 140, minHeight: 22)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 5)
-                            .strokeBorder(Color.secondary.opacity(0.4))
-                    )
             }
+            .frame(minWidth: 140, minHeight: 22)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(
+                RoundedRectangle(cornerRadius: 5)
+                    .strokeBorder(Color.secondary.opacity(0.4))
+            )
         }
         .buttonStyle(.plain)
         .disabled(!self.settings.hotkeyEnabled)
