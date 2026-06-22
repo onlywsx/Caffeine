@@ -90,6 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All user preferences are now read and written through a single `SettingsModel` (`@Observable`), replacing scattered `UserDefaults.standard.bool(forKey:)` calls in `CaffeineViewModel` and per-view `@AppStorage` bindings.
 - `AppDelegate` no longer observes `NSApp.effectiveAppearance` to force-update window appearance; system default behaviour is relied upon instead.
 - The "About" tab now uses `Form` with `.formStyle(.grouped)` for visual consistency with the "General" tab.
+- Shared state (`SettingsModel`, `CaffeineViewModel`, `LoginItemService`) is now provided to views via SwiftUI's `@Environment` mechanism instead of constructor parameters. `CaffeineApp` attaches each value at the scene level using `.environment(...)`, and the views read them with `@Environment(Type.self)` (for `@Observable` models) or `@Environment(\.loginItem)` (for the service, via the new `@Entry`). This eliminates the last places where a default-parameter constructor could silently create a divergent instance, and matches Apple's recommended pattern for `@Observable` types.
 
 ## [1.6.5] - 2026-06-16
 
