@@ -9,13 +9,16 @@ import SwiftUI
 /// preferences (duration, launch, login, activity). Power-related
 /// settings live in `PowerSettingsView`.
 struct GeneralSettingsView: View {
-    @Bindable var viewModel: CaffeineViewModel
-    @Bindable var settings: SettingsModel
-    var loginItem: any LoginItemService = LiveLoginItemService()
+    @Environment(CaffeineViewModel.self) private var viewModel: CaffeineViewModel
+    @Environment(SettingsModel.self) private var settings: SettingsModel
+    @Environment(\.loginItem) private var loginItem: any LoginItemService
 
     @State private var loginItemErrorMessage: String?
 
     var body: some View {
+        @Bindable var settings = self.settings
+        @Bindable var viewModel = self.viewModel
+
         Form {
             Section {
                 Picker(
@@ -125,10 +128,9 @@ struct GeneralSettingsView: View {
 }
 
 #Preview {
-    GeneralSettingsView(
-        viewModel: CaffeineViewModel(settings: SettingsModel()),
-        settings: SettingsModel(),
-        loginItem: FakeLoginItemService()
-    )
-    .environment(\.locale, .init(identifier: "en"))
+    GeneralSettingsView()
+        .environment(CaffeineViewModel(settings: SettingsModel()))
+        .environment(SettingsModel())
+        .environment(\.loginItem, FakeLoginItemService())
+        .environment(\.locale, .init(identifier: "en"))
 }
