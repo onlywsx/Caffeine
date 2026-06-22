@@ -21,8 +21,8 @@ import SwiftUI
 /// button that captures the user's preferred key combination,
 /// and a reset button that restores the default (`⌘⇧C`).
 struct KeyboardSettingsView: View {
-    @Bindable var viewModel: CaffeineViewModel
-    @Bindable var settings: SettingsModel
+    @Environment(CaffeineViewModel.self) private var viewModel: CaffeineViewModel
+    @Environment(SettingsModel.self) private var settings: SettingsModel
 
     /// `true` while the recorder button has focus and the next
     /// key press should be captured as the new hotkey.
@@ -37,6 +37,9 @@ struct KeyboardSettingsView: View {
     @State private var localEventMonitor: Any?
 
     var body: some View {
+        @Bindable var settings = self.settings
+        @Bindable var viewModel = self.viewModel
+
         Form {
             Section {
                 Toggle(
@@ -230,9 +233,8 @@ struct KeyboardSettingsView: View {
 }
 
 #Preview {
-    KeyboardSettingsView(
-        viewModel: CaffeineViewModel(settings: SettingsModel()),
-        settings: SettingsModel()
-    )
-    .environment(\.locale, .init(identifier: "en"))
+    KeyboardSettingsView()
+        .environment(CaffeineViewModel(settings: SettingsModel()))
+        .environment(SettingsModel())
+        .environment(\.locale, .init(identifier: "en"))
 }
