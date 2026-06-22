@@ -186,16 +186,10 @@ struct KeyboardSettingsView: View {
             DZLog(
                 "KeyboardSettingsView: captured keyCode=\(keyCode) modifiers=\(modifiers)"
             )
-            // The view model owns its own `SettingsModel`
-            // instance, so updating only `viewModel` would leave
-            // the view's bound `settings` stale and the label
-            // would not refresh. Write through `self.settings`
-            // first, then ask the view model to (re-)register
-            // the hotkey with the service.
-            self.settings.hotkeyKeyCode = keyCode
-            self.settings.persist(PreferenceKeys.hotkeyKeyCode)
-            self.settings.hotkeyModifiers = modifiers
-            self.settings.persist(PreferenceKeys.hotkeyModifiers)
+            // The view model and the view share a single
+            // `SettingsModel`, so a single call updates the
+            // stored value, persists it, and re-registers the
+            // hotkey with the service.
             self.viewModel.updateHotkey(keyCode: keyCode, modifiers: modifiers)
             self.cancelRecording()
 
@@ -207,13 +201,8 @@ struct KeyboardSettingsView: View {
     // MARK: - Helpers
 
     private func resetToDefault() {
-        // Same as `handle(event:)` — write through `self.settings`
-        // so the recorder label re-renders with the default
-        // `⌘⇧C` glyph.
-        self.settings.hotkeyKeyCode = 8
-        self.settings.persist(PreferenceKeys.hotkeyKeyCode)
-        self.settings.hotkeyModifiers = 0x0300
-        self.settings.persist(PreferenceKeys.hotkeyModifiers)
+        // Reset to the default ⌘⇧C. `updateHotkey` writes the
+        // new value, persists it, and re-registers the service.
         self.viewModel.updateHotkey(keyCode: 8, modifiers: 0x0300)
     }
 
