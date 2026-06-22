@@ -135,8 +135,9 @@ struct PowerSettingsView: View {
 }
 
 #Preview {
-    PowerSettingsView()
-        .environment(CaffeineViewModel(settings: SettingsModel()))
-        .environment(SettingsModel())
+    let settings = SettingsModel()
+    return PowerSettingsView()
+        .environment(CaffeineViewModel(settings: settings))
+        .environment(settings)
         .environment(\.locale, .init(identifier: "en"))
 }

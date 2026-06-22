@@ -128,9 +128,10 @@ struct GeneralSettingsView: View {
 }
 
 #Preview {
-    GeneralSettingsView()
-        .environment(CaffeineViewModel(settings: SettingsModel()))
-        .environment(SettingsModel())
+    let settings = SettingsModel()
+    return GeneralSettingsView()
+        .environment(CaffeineViewModel(settings: settings))
+        .environment(settings)
         .environment(\.loginItem, FakeLoginItemService())
         .environment(\.locale, .init(identifier: "en"))
 }

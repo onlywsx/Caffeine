@@ -233,8 +233,9 @@ struct KeyboardSettingsView: View {
 }
 
 #Preview {
-    KeyboardSettingsView()
-        .environment(CaffeineViewModel(settings: SettingsModel()))
-        .environment(SettingsModel())
+    let settings = SettingsModel()
+    return KeyboardSettingsView()
+        .environment(CaffeineViewModel(settings: settings))
+        .environment(settings)
         .environment(\.locale, .init(identifier: "en"))
 }
